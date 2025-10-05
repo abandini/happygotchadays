@@ -1,0 +1,33 @@
+{
+  "name": "happygotchadays",
+  "version": "1.0.0",
+  "description": "A joyful platform for pet owners to celebrate and share their pets' adoption anniversaries",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:preview": "wrangler deploy --env preview",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "db:migrate": "wrangler d1 execute gotchadays-db --remote --file=./migrations/0001_initial_schema.sql",
+    "db:migrate:local": "wrangler d1 execute gotchadays-db --local --file=./migrations/0001_initial_schema.sql"
+  },
+  "keywords": [
+    "pet",
+    "adoption",
+    "gotcha-day",
+    "cloudflare-workers",
+    "pwa"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240620.0",
+    "vitest": "^1.6.0",
+    "wrangler": "^3.60.0"
+  }
+}

@@ -1,0 +1,52 @@
+name = "happygotchadays"
+main = "src/index.js"
+compatibility_date = "2024-10-01"
+workers_dev = true
+
+# Production environment
+[env.production]
+name = "happygotchadays-production"
+routes = [
+  { pattern = "happygotchadays.com/*", custom_domain = true },
+  { pattern = "www.happygotchadays.com/*", custom_domain = true }
+]
+
+# Preview environment
+[env.preview]
+name = "happygotchadays-preview"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "gotchadays-db"
+database_id = "591d8aa5-4693-4f53-add8-2434a5277972"
+
+# R2 Storage binding for photos
+[[r2_buckets]]
+binding = "PHOTOS"
+bucket_name = "gotchadays-photos"
+
+# KV namespace for sessions and caching
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "5618f8d785c644ae83fe4660fa98c31d"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "10849b13402b40209b5204ec52c7b4c2"
+
+# AI binding for Workers AI
+[ai]
+binding = "AI"
+
+# Secrets (these are set via wrangler secret put)
+# JWT_SECRET - for signing JWT tokens
+# Run: wrangler secret put JWT_SECRET
+
+# Analytics Engine binding (optional, for tracking metrics)
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+
+# Observability
+[observability]
+enabled = true
