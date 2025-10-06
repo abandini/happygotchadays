@@ -136,6 +136,41 @@ auth.post('/login', async (c) => {
 });
 
 /**
+ * GET /api/auth/verify
+ * Verify current token and return user info
+ */
+auth.get('/verify', async (c) => {
+  try {
+    const authHeader = c.req.header('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return c.json({ error: 'No token provided' }, 401);
+    }
+
+    const token = authHeader.substring(7);
+    const { verifyJWT } = await import('../utils/jwt.js');
+    const payload = await verifyJWT(token, c.env.JWT_SECRET);
+
+    if (!payload) {
+      return c.json({ error: 'Invalid or expired token' }, 401);
+    }
+
+    // Get fresh user data
+    const user = await c.env.DB.prepare(
+      'SELECT id, email, username, created_at FROM users WHERE id = ?'
+    ).bind(payload.userId).first();
+
+    if (!user) {
+      return c.json({ error: 'User not found' }, 404);
+    }
+
+    return c.json({ user });
+  } catch (error) {
+    console.error('Verify error:', error);
+    return c.json({ error: 'Verification failed' }, 500);
+  }
+});
+
+/**
  * POST /api/auth/logout
  * Logout user (clear session)
  */
