@@ -600,9 +600,86 @@ window.likePost = async function(postId) {
     }
 };
 
-window.viewComments = function(postId) {
-    // TODO: Implement comments modal
-    console.log('View comments for', postId);
+window.viewComments = async function(postId) {
+    // Fetch comments
+    let comments = [];
+    try {
+        const res = await fetch(\`\${API_BASE}/social/posts/\${postId}/comments\`);
+        const data = await res.json();
+        comments = data.comments || [];
+    } catch (error) {
+        console.error('Fetch comments error:', error);
+    }
+
+    const commentsHtml = comments.length > 0
+        ? comments.map(c => \`
+            <div class="comment" style="display: flex; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid var(--border-color);">
+                <div class="avatar" style="width: 36px; height: 36px; font-size: 0.9rem; flex-shrink: 0;">\${c.username[0].toUpperCase()}</div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 600; font-size: 0.9rem;">\${c.username}</div>
+                    <div style="color: var(--text-color); margin-top: 0.25rem;">\${c.content}</div>
+                    <div style="color: var(--text-light); font-size: 0.75rem; margin-top: 0.25rem;">\${new Date(c.created_at).toLocaleDateString()}</div>
+                </div>
+            </div>
+        \`).join('')
+        : '<p style="text-align: center; color: var(--text-light); padding: 2rem;">No comments yet. Be the first!</p>';
+
+    const addCommentForm = authToken
+        ? \`
+            <form id="addCommentForm" style="display: flex; gap: 0.5rem; padding: 1rem; border-top: 1px solid var(--border-color); background: var(--bg-light);">
+                <input type="text" id="commentInput" placeholder="Add a comment..." required style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border-color); border-radius: var(--radius);">
+                <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;">Post</button>
+            </form>
+        \`
+        : '<p style="text-align: center; padding: 1rem; background: var(--bg-light); color: var(--text-light);">Login to add a comment</p>';
+
+    const modal = \`
+        <div class="modal" onclick="closeModal(event)">
+            <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+                <h2 style="padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">💬 Comments</h2>
+                <div id="commentsContainer" style="flex: 1; overflow-y: auto; max-height: 50vh;">
+                    \${commentsHtml}
+                </div>
+                \${addCommentForm}
+            </div>
+        </div>
+    \`;
+    document.getElementById('modalContainer').innerHTML = modal;
+
+    // Add comment form handler
+    const form = document.getElementById('addCommentForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('commentInput');
+            const content = input.value.trim();
+            if (!content) return;
+
+            try {
+                const res = await fetch(\`\${API_BASE}/social/posts/\${postId}/comment\`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': \`Bearer \${authToken}\`
+                    },
+                    body: JSON.stringify({ content })
+                });
+
+                if (res.ok) {
+                    input.value = '';
+                    // Refresh comments
+                    viewComments(postId);
+                    loadFeed(); // Update comment count in feed
+                } else {
+                    const error = await res.json();
+                    alert('Error: ' + (error.error || 'Failed to post comment'));
+                }
+            } catch (error) {
+                console.error('Post comment error:', error);
+                alert('Failed to post comment. Please try again.');
+            }
+        });
+    }
 };
 
 // VIRAL FEATURES

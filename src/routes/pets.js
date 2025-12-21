@@ -184,12 +184,24 @@ pets.delete('/:id', authMiddleware, async (c) => {
       return c.json({ error: 'Not authorized to delete this pet' }, 403);
     }
 
-    // Delete pet (cascade will handle related records)
+    // Get all photos for this pet to delete from R2
+    const { results: photos } = await c.env.DB.prepare(
+      'SELECT r2_object_key FROM photos WHERE pet_id = ?'
+    ).bind(petId).all();
+
+    // Delete photos from R2 bucket
+    if (photos && photos.length > 0 && c.env.PHOTOS) {
+      const deletePromises = photos
+        .filter(p => p.r2_object_key)
+        .map(p => c.env.PHOTOS.delete(p.r2_object_key));
+
+      await Promise.allSettled(deletePromises);
+    }
+
+    // Delete pet (cascade will handle related DB records)
     await c.env.DB.prepare(
       'DELETE FROM pets WHERE id = ?'
     ).bind(petId).run();
-
-    // TODO: Delete photos from R2 bucket
 
     return c.json({ success: true });
 
