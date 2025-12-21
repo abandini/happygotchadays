@@ -582,24 +582,7 @@ function closeModal(event) {
     }
 }
 
-// Global functions
-window.likePost = async function(postId) {
-    if (!authToken) {
-        showLoginModal();
-        return;
-    }
-
-    try {
-        await fetch(\`\${API_BASE}/social/posts/\${postId}/like\`, {
-            method: 'POST',
-            headers: { 'Authorization': \`Bearer \${authToken}\` }
-        });
-        loadFeed();
-    } catch (error) {
-        console.error('Like error:', error);
-    }
-};
-
+// Global functions for onclick handlers
 window.viewComments = async function(postId) {
     // Fetch comments
     let comments = [];
@@ -618,7 +601,7 @@ window.viewComments = async function(postId) {
                 <div style="flex: 1;">
                     <div style="font-weight: 600; font-size: 0.9rem;">\${c.username}</div>
                     <div style="color: var(--text-color); margin-top: 0.25rem;">\${c.content}</div>
-                    <div style="color: var(--text-light); font-size: 0.75rem; margin-top: 0.25rem;">\${new Date(c.created_at).toLocaleDateString()}</div>
+                    <div style="color: var(--text-light); font-size: 0.75rem; margin-top: 0.25rem;">\${new Date(c.created_at * 1000).toLocaleDateString()}</div>
                 </div>
             </div>
         \`).join('')
