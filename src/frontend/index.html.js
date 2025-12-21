@@ -54,11 +54,11 @@ export const html = `<!DOCTYPE html>
         <section class="hero" id="home">
             <div class="container">
                 <div class="hero-content">
-                    <h2 class="hero-title">Celebrate Every Gotcha Day 🎉</h2>
-                    <p class="hero-subtitle">Share the joy of your rescue pet's adoption anniversary</p>
+                    <h2 class="hero-title">Celebrate Every Gotcha Day <span class="emoji">🎉</span></h2>
+                    <p class="hero-subtitle">Share the joy of your rescue pet's adoption anniversary with the world!</p>
                     <div class="hero-actions">
-                        <button class="btn btn-large btn-primary" id="heroGetStarted">Get Started</button>
-                        <button class="btn btn-large btn-outline" id="heroLearnMore">Learn More</button>
+                        <button class="btn btn-large btn-primary" id="heroGetStarted">Start Celebrating</button>
+                        <button class="btn btn-large btn-outline" id="heroLearnMore">See Success Stories</button>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -66,7 +66,41 @@ export const html = `<!DOCTYPE html>
                         <div class="pet-photo-placeholder">🐶</div>
                         <h3>Max</h3>
                         <p>3 years with family</p>
+                        <div class="celebration-badge" style="margin-top: 1rem;">Gotcha Day Hero!</div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Stats -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="community-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCelebrations">1,247</span>
+                        <span class="stat-label">Celebrations</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalPets">892</span>
+                        <span class="stat-label">Rescue Pets</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="celebrationsToday">34</span>
+                        <span class="stat-label">Celebrating Today</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalHearts">12.5K</span>
+                        <span class="stat-label">Hearts Given</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Banner -->
+        <section class="trending-section">
+            <div class="container">
+                <div class="celebration-banner">
+                    <span class="emoji">🔥</span> <strong id="trendingCount">23</strong> pets are celebrating their Gotcha Days this week! Join the celebration!
                 </div>
             </div>
         </section>
@@ -74,11 +108,14 @@ export const html = `<!DOCTYPE html>
         <!-- Feed Section -->
         <section class="feed-section" id="feed">
             <div class="container">
-                <h2 class="section-title">Gotcha Day Celebrations</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 class="section-title" style="margin-bottom: 0;">Gotcha Day Celebrations</h2>
+                    <div class="trending-badge">Trending Now</div>
+                </div>
                 <div id="feedContainer" class="feed-grid">
                     <div class="loading">Loading celebrations...</div>
                 </div>
-                <button class="btn btn-secondary" id="loadMoreBtn" style="display: none;">Load More</button>
+                <button class="btn btn-secondary" id="loadMoreBtn" style="display: none;">Load More Celebrations</button>
             </div>
         </section>
 
@@ -102,6 +139,43 @@ export const html = `<!DOCTYPE html>
                 <h2 class="section-title">Upcoming Gotcha Days 📅</h2>
                 <div id="upcomingContainer" class="upcoming-grid">
                     <div class="loading">Loading upcoming celebrations...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Pets Section (Auth Required) -->
+        <section class="my-pets-section" id="my-pets" style="display: none;">
+            <div class="container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 class="section-title" style="margin-bottom: 0;">My Rescue Pets 🐾</h2>
+                    <button class="btn btn-primary" id="addPetBtn">Add Pet</button>
+                </div>
+                <div id="myPetsContainer" class="pet-grid">
+                    <div class="loading">Loading your pets...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section (Auth Required) -->
+        <section class="profile-section" id="profile" style="display: none;">
+            <div class="container">
+                <h2 class="section-title">My Profile</h2>
+                <div class="community-stats" style="max-width: 800px; margin: 2rem auto;">
+                    <div class="stat-item">
+                        <span class="stat-number" id="userPetCount">0</span>
+                        <span class="stat-label">My Pets</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="userPostCount">0</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="userLikeCount">0</span>
+                        <span class="stat-label">Likes Given</span>
+                    </div>
+                </div>
+                <div id="profileContainer" style="max-width: 600px; margin: 0 auto;">
+                    <div class="loading">Loading profile...</div>
                 </div>
             </div>
         </section>
@@ -132,6 +206,9 @@ export const html = `<!DOCTYPE html>
 
     <!-- Modals -->
     <div id="modalContainer"></div>
+
+    <!-- Confetti Container -->
+    <div id="confettiContainer" class="confetti-container"></div>
 
     <!-- Scripts -->
     <script src="/scripts/app.js"></script>

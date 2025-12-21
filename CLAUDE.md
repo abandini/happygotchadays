@@ -4,187 +4,350 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**HappyGotchaDays.com** - A platform for pet owners to celebrate and share their dogs' and cats' adoption anniversaries ("gotcha days"). This is exclusively focused on companion animals (dogs/cats) - NO human adoption content.
+**HappyGotchaDays.com** - A Progressive Web App for pet owners to celebrate and share their dogs' and cats' adoption anniversaries ("gotcha days"). Built on Cloudflare Workers edge platform.
 
-**Current State:** Full-stack application built and ready for deployment. Includes backend API (Cloudflare Worker with Hono), D1 database, R2 storage, KV sessions, Workers AI integration, and responsive PWA frontend.
+**Current State:** Fully deployed and operational at https://happygotchadays.bill-burkey.workers.dev
 
-## Project Architecture (Planned)
+**Critical Context:** This platform is **exclusively for pet (dog/cat) adoption celebrations**. The term "gotcha day" is controversial in child adoption contexts. Never conflate pet and human adoption.
 
-### Technology Stack
-- **Frontend:** Vanilla JS/HTML/CSS served from Cloudflare Worker
-- **Backend:** Cloudflare Worker using Hono framework
+## Technology Stack
+
+- **Runtime:** Cloudflare Workers (edge compute)
+- **Framework:** Hono (lightweight web framework)
 - **Database:** Cloudflare D1 (SQLite at edge)
-- **Storage:** Cloudflare R2 for images/videos
-- **Cache:** Cloudflare KV for sessions and frequently accessed data
-- **AI:** Cloudflare Workers AI for image analysis and content moderation
-- **Auth:** Custom JWT implementation using Cloudflare Secrets
-- **Deploy:** GitHub Actions → Wrangler
+- **Storage:** Cloudflare R2 (object storage for photos)
+- **Cache:** Cloudflare KV (sessions and caching)
+- **AI:** Cloudflare Workers AI
+- **Auth:** Custom JWT with KV sessions
+- **Frontend:** Vanilla JavaScript/HTML/CSS served from Worker
+- **PWA:** Service Worker, manifest, offline support
 
-### Planned File Structure
+## Architecture
+
+### Request Flow
+1. Request → Cloudflare Worker (Hono app)
+2. Logger & CORS middleware
+3. Route matching (`/api/*` or static files)
+4. Authentication middleware (where required)
+5. Route handler (database/R2/AI operations)
+6. Response
+
+### Static File Serving
+Frontend assets are embedded as JavaScript strings and served via the Worker itself (no separate static hosting). See `src/middleware/static.js` and `src/frontend/*`.
+
+### Database Design
+All tables use `TEXT` for IDs (UUIDs) and `INTEGER` for timestamps (Unix epoch). Key relationships:
+- Users → Pets (one-to-many)
+- Pets → Photos (one-to-many)
+- Users → Posts → Likes/Comments (many-to-many)
+- Users ↔ Users (follows, many-to-many)
+
+## Development Commands
+
+```bash
+# Local development
+npm run dev                    # Start local Worker (localhost:8787)
+curl http://localhost:8787/health  # Quick health check
+
+# Database operations
+npm run db:migrate:local       # Apply migrations locally
+npm run db:migrate             # Apply migrations to remote D1
+wrangler d1 execute gotchadays-db --local --command="SELECT * FROM users LIMIT 5"  # Query local DB
+wrangler d1 execute gotchadays-db --remote --command="SELECT * FROM users LIMIT 5" # Query remote DB
+
+# Testing
+npm test                       # Run all tests with Vitest
+npm test -- tests/unit/auth.test.js  # Run specific test file
+npm run test:coverage          # Run tests with coverage
+
+# Deployment
+npm run deploy                 # Deploy to production
+npm run deploy:preview         # Deploy to preview environment
+
+# Secrets and configuration
+wrangler secret list           # List configured secrets
+wrangler secret put JWT_SECRET # Set JWT_SECRET (prompted for value)
+wrangler kv:namespace list     # List KV namespaces
+wrangler r2 bucket list        # List R2 buckets
 ```
-src/
-├── index.js              # Main Worker entry point
-├── routes/               # API routes
-│   ├── auth.js          # Authentication endpoints
-│   ├── pets.js          # Pet profile CRUD
-│   ├── photos.js        # Photo upload/retrieval with R2
-│   ├── social.js        # Likes, comments, follows
-│   └── search.js        # Search and discovery
-├── middleware/           # Auth, validation, rate limiting
-├── db/                   # D1 query functions
-├── ai/                   # Workers AI integrations
-├── utils/                # Helper functions
-└── frontend/             # HTML/CSS/JS
-    ├── index.html
-    ├── styles/
-    └── scripts/
-migrations/               # D1 database migrations
-tests/
-├── unit/
-├── integration/
-└── e2e/
+
+## Key Files & Locations
+
+### Entry Point
+- `src/index.js` - Main Worker, sets up Hono app with all routes
+
+### Routes (6 API modules)
+- `src/routes/auth.js` - Register, login, logout, verify
+- `src/routes/pets.js` - Pet profile CRUD
+- `src/routes/photos.js` - Photo upload/download via R2
+- `src/routes/social.js` - Posts, likes, comments, follows
+- `src/routes/search.js` - Search pets/users, discover, upcoming gotcha days
+- `src/routes/reminders.js` - Gotcha day reminder management (email notifications)
+
+### Utilities
+- `src/utils/jwt.js` - JWT signing/verification using Web Crypto API
+- `src/utils/password.js` - Password hashing with SHA-256
+- `src/utils/id.js` - UUID generation and timestamps
+
+### Middleware
+- `src/middleware/auth.js` - JWT authentication middleware
+  - `authMiddleware` - Requires valid JWT, attaches user to context as `c.get('user')`
+  - `optionalAuth` - Checks for JWT but doesn't require it (for public/private content)
+- `src/middleware/static.js` - Serves frontend from embedded strings
+
+### AI Integration
+- `src/ai/image-analysis.js` - Breed detection, descriptions, moderation, tagging
+- `src/ai/content-generation.js` - Story prompts, celebration messages, hashtags
+
+### Frontend (embedded as JS strings)
+- `src/frontend/index.html.js` - Main HTML structure
+- `src/frontend/styles/main.css.js` - Complete CSS including modals
+- `src/frontend/scripts/app.js.js` - Client-side JavaScript
+- `src/frontend/manifest.json.js` - PWA manifest
+- `src/frontend/sw.js.js` - Service Worker
+
+## Environment Bindings
+
+Accessed via `c.env` in Hono context:
+
+- `DB` - D1 database (`gotchadays-db`)
+- `PHOTOS` - R2 bucket (`gotchadays-photos`)
+- `SESSIONS` - KV namespace for user sessions
+- `CACHE` - KV namespace for general caching
+- `AI` - Workers AI binding
+- `JWT_SECRET` - Secret for signing tokens
+- `ANALYTICS` - Analytics Engine (optional)
+
+## API Patterns
+
+### Route Structure
+All route files export a Hono router instance:
+```javascript
+import { Hono } from 'hono';
+export const myRoutes = new Hono();
+myRoutes.get('/endpoint', async (c) => { /* handler */ });
 ```
-
-## Core Features to Implement
-
-1. User registration and authentication (JWT with KV sessions)
-2. Pet profile creation (name, adoption date, breed, story)
-3. Photo gallery with R2 storage
-4. Timeline view of gotcha day celebrations
-5. Social features (likes, comments, follows)
-6. Annual reminders for upcoming gotcha days
-7. Public/private profile settings
-8. Search and discovery
-9. AI-powered features (photo enhancement suggestions, story prompts)
-
-## Database Schema (D1)
-
-### Core Tables
-- `users` - User accounts with email, username, password_hash
-- `pets` - Pet profiles linked to users (name, species, breed, gotcha_date, adoption_story)
-- `photos` - Photo metadata with R2 object keys
-- `posts` - Gotcha day celebration posts
-- `likes` - User likes on posts
-- `comments` - Comments on posts
-- `follows` - User follow relationships
-
-All tables use TEXT PRIMARY KEY for IDs and INTEGER timestamps for dates.
-
-## Key API Endpoints (Planned)
+Register in `src/index.js` with: `app.route('/api/prefix', myRoutes)`
 
 ### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - Login with JWT generation
-- `POST /api/auth/refresh` - Token refresh
-
-### Pets
-- `POST /api/pets` - Create pet profile
-- `GET /api/pets/:id` - Get pet details
-- `PUT /api/pets/:id` - Update pet profile
-- `DELETE /api/pets/:id` - Delete pet profile
-- `GET /api/users/:id/pets` - List user's pets
-
-### Photos
-- `POST /api/pets/:id/photos` - Upload photo to R2
-- `GET /api/pets/:id/photos` - List pet photos
-- `DELETE /api/photos/:id` - Delete photo
-- `PUT /api/photos/:id` - Update photo metadata
-
-### Social
-- `POST /api/posts` - Create gotcha day post
-- `GET /api/feed` - Get personalized feed
-- `POST /api/posts/:id/like` - Like a post
-- `POST /api/posts/:id/comment` - Comment on post
-- `POST /api/users/:id/follow` - Follow user
-
-## AI Integration (Workers AI)
-
-### Models to Use
-- `@cf/microsoft/resnet-50` - Breed detection
-- `@cf/meta/llama-3.2-11b-vision-instruct` - Image descriptions and alt text
-- `@cf/meta/llama-3.1-8b-instruct` - Story suggestions and celebration prompts
-
-### Implementation Pattern
+Routes using `authMiddleware` require JWT and attach user to context:
 ```javascript
-const aiResponse = await env.AI.run(
-  '@cf/microsoft/resnet-50',
-  { image: imageArray }
-);
+import { authMiddleware } from '../middleware/auth.js';
+myRoutes.get('/protected', authMiddleware, async (c) => {
+  const user = c.get('user'); // { id: string, email: string }
+  // ...
+});
+```
+Use `optionalAuth` for endpoints that work for both authenticated and guest users.
+
+### Database Queries (D1)
+All tables use `TEXT` for IDs and `INTEGER` for timestamps. D1 uses prepared statements:
+```javascript
+// Single result
+const user = await c.env.DB.prepare(
+  'SELECT * FROM users WHERE id = ?'
+).bind(userId).first();
+
+// Multiple results
+const pets = await c.env.DB.prepare(
+  'SELECT * FROM pets WHERE user_id = ?'
+).bind(userId).all();
+
+// Insert/Update/Delete
+const result = await c.env.DB.prepare(
+  'INSERT INTO pets (id, user_id, name, species, gotcha_date, created_at) VALUES (?, ?, ?, ?, ?, ?)'
+).bind(id, userId, name, species, gotchaDate, timestamp).run();
 ```
 
-## Security Requirements
+### R2 Storage
+```javascript
+// Upload with metadata
+await c.env.PHOTOS.put(key, fileStream, {
+  httpMetadata: { contentType: 'image/jpeg' }
+});
 
-1. **Authentication:** Password hashing with Web Crypto API, JWT tokens (1 hour access, 7 day refresh)
-2. **Data Protection:** Validate all inputs, parameterized SQL queries, rate limiting on all endpoints
-3. **Privacy:** Public/private profile options, user data deletion capability
-4. **Headers:** Content Security Policy, CORS middleware
+// Retrieve
+const object = await c.env.PHOTOS.get(key);
+const arrayBuffer = await object.arrayBuffer();
 
-## Performance Targets
-
-- Worker response time <100ms (excluding AI)
-- D1 queries <50ms
-- Images optimized <500KB
-- Initial page load <2s
-- Lazy loading for galleries
-
-## Development Workflow (When Implemented)
-
-### Local Development
-```bash
-wrangler dev                    # Run local dev server
-wrangler d1 execute DB --local  # Run D1 queries locally
+// Delete
+await c.env.PHOTOS.delete(key);
 ```
 
-### Deployment Environments
-- **Development:** Local with `wrangler dev`
-- **Preview:** Automatic on PR creation
-- **Production:** Manual approval after preview
+### Workers AI
+```javascript
+// Image classification
+const result = await c.env.AI.run('@cf/microsoft/resnet-50', { image: arrayBuffer });
 
-### Testing
-- Vitest for unit tests (targeting >80% coverage)
-- Playwright for browser/E2E tests
-- All critical paths must have tests
-- Tests run in CI/CD pipeline
+// Vision model
+const result = await c.env.AI.run('@cf/llava-hf/llava-1.5-7b-hf', {
+  image: arrayBuffer,
+  prompt: "Describe this pet"
+});
 
-## Important Context
+// Text generation
+const result = await c.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+  messages: [{ role: "user", content: "Generate a story..." }]
+});
+```
 
-### Project Values
-- Celebrate rescue and adoption as life-changing moments for pets
-- Build community around pet adoption stories
-- Focus exclusively on companion animals (dogs/cats)
-- Create shareable, social-media-friendly experiences
-- Leverage Cloudflare's edge compute and AI capabilities
+## Important Patterns
 
-### Market Context
-- 4.2 million annual pet adoptions in the US
+### Frontend Embedded as Strings
+The frontend is **not** separate files - it's embedded as exported strings in `.js` files. When editing frontend:
+1. Edit `src/frontend/*.js` files
+2. Modify the template literal content
+3. Deploy to update
+
+### Modal Pattern
+Modals are dynamically created by injecting HTML into `#modalContainer`. Close by clicking backdrop or calling `closeModal()`. Requires proper CSS (already added).
+
+### Adding New API Endpoints
+When adding new endpoints:
+1. Add handler to appropriate route file in `src/routes/` (or create new route file)
+2. If new route file, register it in `src/index.js`: `app.route('/api/prefix', newRoutes)`
+3. Add migration if database changes needed in `migrations/`
+4. Run `npm run db:migrate:local` to apply locally
+5. Test with `npm run dev`
+6. Run `npm run deploy` to push changes (frontend is bundled with Worker)
+
+### Error from Missing Endpoints
+If frontend calls an API endpoint that doesn't exist (like `/api/auth/verify` was initially), add it to the appropriate route file and redeploy.
+
+## Common Issues
+
+### "404 Not found" on API calls
+- Check route is registered in `src/index.js`
+- Verify route file exports with correct Hono pattern
+- Check HTTP method matches (GET/POST/PUT/DELETE)
+
+### Frontend not updating
+- Frontend is cached in the Worker bundle
+- Must redeploy with `npm run deploy` to see changes
+- Service Worker also caches - hard refresh in browser (Cmd+Shift+R)
+
+### Database errors
+- Ensure migrations ran: `npm run db:migrate`
+- Check binding names in `wrangler.toml` match code
+- Verify data types match schema (TEXT for IDs, INTEGER for timestamps)
+
+### Authentication not working
+- Verify `JWT_SECRET` is set: `wrangler secret list`
+- Check token is sent in `Authorization: Bearer <token>` header
+- Token expires after 1 hour (3600 seconds)
+
+## Workers AI Models
+
+### Image Analysis
+- `@cf/microsoft/resnet-50` - Image classification, breed detection
+- `@cf/llava-hf/llava-1.5-7b-hf` - Vision model for descriptions and moderation
+
+### Content Generation
+- `@cf/meta/llama-3.1-8b-instruct` - Text generation for stories, prompts, hashtags
+
+## Deployment Info
+
+**Live URL:** https://happygotchadays.bill-burkey.workers.dev
+**GitHub:** https://github.com/abandini/happygotchadays
+**Cloudflare Account:** bill.burkey@ememetics.com
+**Worker Name:** `happygotchadays`
+
+### GitHub Actions
+Workflow at `.github/workflows/deploy.yml` auto-deploys on push to `main` (requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets).
+
+## Testing
+
+### Unit Tests
+- Located in `tests/unit/`
+- Run specific test: `npm test -- tests/unit/auth.test.js`
+- Current tests: `auth.test.js`, `reminders.test.js`
+- Use Vitest for test framework
+- Mock Cloudflare bindings (DB, KV, R2, AI) in tests
+
+### Integration/E2E Tests
+- Located in `tests/integration/` and `tests/e2e/`
+- Test against local Wrangler dev server
+- Browser console test script in `BROWSER_TEST.md` for full API workflow
+
+### Manual Testing
+1. Visit https://happygotchadays.bill-burkey.workers.dev
+2. Click "Sign Up" - modal should appear
+3. Fill form and submit - should create account
+4. Navigation should update to show authenticated state
+
+## Performance Notes
+
+- Worker response time target: <100ms (excluding AI)
+- D1 queries target: <50ms
+- Images should be <500KB
+- Initial page load target: <2s
+- Use KV for caching frequently accessed data
+
+## Security
+
+- Passwords hashed with SHA-256 (Web Crypto API)
+- JWT tokens expire after 1 hour
+- Sessions stored in KV with TTL
+- All inputs validated before database operations
+- Parameterized queries prevent SQL injection
+- CORS configured for specific origins
+- Rate limiting should be implemented (not yet done)
+
+## Coding Conventions
+
+### Style Guidelines
+- **Module System:** ES modules (`"type": "module"` in package.json)
+- **Indentation:** 2 spaces (no tabs)
+- **Quotes:** Single quotes for strings
+- **Naming:** `camelCase` for variables/functions, `PascalCase` for classes
+- **Async:** All route handlers should be async
+- **Comments:** Use block comments above handlers for non-trivial flows; avoid inline noise
+
+### Route File Pattern
+```javascript
+import { Hono } from 'hono';
+import { authMiddleware } from '../middleware/auth.js';
+
+export const myRoutes = new Hono();
+
+// GET endpoint with auth
+myRoutes.get('/resource', authMiddleware, async (c) => {
+  const user = c.get('user');
+  // Handler logic
+  return c.json({ data: result });
+});
+
+// POST endpoint
+myRoutes.post('/resource', authMiddleware, async (c) => {
+  const body = await c.req.json();
+  // Handler logic
+  return c.json({ success: true }, 201);
+});
+```
+
+### Frontend Asset Pattern
+Frontend files in `src/frontend/` are JavaScript modules that export template literal strings:
+```javascript
+// src/frontend/example.html.js
+export const exampleHTML = `
+<!DOCTYPE html>
+<html>
+  <!-- HTML content -->
+</html>
+`;
+```
+
+## Market Context
+
+- 4.2 million annual pet adoptions in US
 - 81% of pet parents celebrate gotcha days
-- Target audience: Millennials (33% of pet owners), middle to upper-middle income
-- Annual pet spending: $1,852 for dogs, $1,311 for cats
-
-### Critical Boundary
-This platform is **exclusively for pet (dog/cat) adoption celebrations**. The term "gotcha day" is controversial in child adoption contexts - 95% of adult adoptees oppose it. Any implementation must carefully avoid conflating pet and human adoption.
-
-## Next Steps for Implementation
-
-1. Initialize GitHub repository with proper structure
-2. Set up Cloudflare account and resources (D1, R2, KV, Secrets)
-3. Configure `wrangler.toml` with bindings
-4. Create initial D1 schema and migrations
-5. Set up CI/CD pipeline with GitHub Actions
-6. Implement Hono framework with basic routing
-7. Build authentication system
-8. Develop pet profile CRUD operations
-9. Integrate R2 for photo storage
-10. Add social features and feed
-11. Integrate Workers AI capabilities
-12. Build frontend UI components
+- Target: Millennials (33% of pet owners), middle to upper-middle income
+- This is a joyful celebration platform for rescue pets
 
 ## References
 
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/)
+- [Hono Framework](https://hono.dev/)
 - [Cloudflare D1](https://developers.cloudflare.com/d1/)
 - [Cloudflare R2](https://developers.cloudflare.com/r2/)
-- [Cloudflare KV](https://developers.cloudflare.com/kv/)
 - [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/)
-- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/)
-- [Hono Framework](https://hono.dev/)

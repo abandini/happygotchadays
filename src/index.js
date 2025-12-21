@@ -6,6 +6,7 @@ import { petRoutes } from './routes/pets.js';
 import { photoRoutes } from './routes/photos.js';
 import { socialRoutes } from './routes/social.js';
 import { searchRoutes } from './routes/search.js';
+import { remindersRoutes } from './routes/reminders.js';
 import { authMiddleware } from './middleware/auth.js';
 import { serveStatic } from './middleware/static.js';
 
@@ -29,6 +30,7 @@ app.route('/api/pets', petRoutes);
 app.route('/api/photos', photoRoutes);
 app.route('/api/social', socialRoutes);
 app.route('/api/search', searchRoutes);
+app.route('/api/reminders', remindersRoutes);
 
 // Serve static frontend files
 app.use('/*', serveStatic);
