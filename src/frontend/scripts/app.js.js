@@ -49,25 +49,34 @@ function updateUIForAuth(isAuthenticated) {
     const loginBtn = document.getElementById('loginBtn');
     const signupBtn = document.getElementById('signupBtn');
     const logoutBtn = document.getElementById('logoutBtn');
+    const loginBtnMobile = document.getElementById('loginBtnMobile');
+    const signupBtnMobile = document.getElementById('signupBtnMobile');
+    const logoutBtnMobile = document.getElementById('logoutBtnMobile');
     const myPetsLink = document.getElementById('myPetsLink');
     const profileLink = document.getElementById('profileLink');
     const myPetsSection = document.getElementById('my-pets');
     const profileSection = document.getElementById('profile');
 
     if (isAuthenticated) {
-        loginBtn.style.display = 'none';
-        signupBtn.style.display = 'none';
-        logoutBtn.style.display = 'block';
-        myPetsLink.style.display = 'block';
-        profileLink.style.display = 'block';
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (signupBtn) signupBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'block';
+        if (loginBtnMobile) loginBtnMobile.style.display = 'none';
+        if (signupBtnMobile) signupBtnMobile.style.display = 'none';
+        if (logoutBtnMobile) logoutBtnMobile.style.display = 'block';
+        if (myPetsLink) myPetsLink.style.display = 'block';
+        if (profileLink) profileLink.style.display = 'block';
         if (myPetsSection) myPetsSection.style.display = 'block';
         if (profileSection) profileSection.style.display = 'block';
     } else {
-        loginBtn.style.display = 'block';
-        signupBtn.style.display = 'block';
-        logoutBtn.style.display = 'none';
-        myPetsLink.style.display = 'none';
-        profileLink.style.display = 'none';
+        if (loginBtn) loginBtn.style.display = 'block';
+        if (signupBtn) signupBtn.style.display = 'block';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        if (loginBtnMobile) loginBtnMobile.style.display = 'block';
+        if (signupBtnMobile) signupBtnMobile.style.display = 'block';
+        if (logoutBtnMobile) logoutBtnMobile.style.display = 'none';
+        if (myPetsLink) myPetsLink.style.display = 'none';
+        if (profileLink) profileLink.style.display = 'none';
         if (myPetsSection) myPetsSection.style.display = 'none';
         if (profileSection) profileSection.style.display = 'none';
     }
@@ -134,6 +143,7 @@ function initNavigation() {
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            closeNavMenu();
             const target = e.target.getAttribute('href').substring(1);
             navigateTo(target);
         });
@@ -148,6 +158,13 @@ function initNavigation() {
             navToggle.classList.toggle('active');
         });
     }
+}
+
+function closeNavMenu() {
+    const navMenu = document.getElementById('navMenu');
+    const navToggle = document.getElementById('navToggle');
+    if (navMenu) navMenu.classList.remove('active');
+    if (navToggle) navToggle.classList.remove('active');
 }
 
 function navigateTo(section) {
@@ -229,10 +246,24 @@ async function filterDiscoverPets(filter) {
 
 // Event Listeners
 function initEventListeners() {
-    // Auth buttons
+    // Auth buttons (desktop)
     document.getElementById('loginBtn')?.addEventListener('click', showLoginModal);
     document.getElementById('signupBtn')?.addEventListener('click', showSignupModal);
     document.getElementById('logoutBtn')?.addEventListener('click', logout);
+
+    // Auth buttons (mobile)
+    document.getElementById('loginBtnMobile')?.addEventListener('click', () => {
+        closeNavMenu();
+        showLoginModal();
+    });
+    document.getElementById('signupBtnMobile')?.addEventListener('click', () => {
+        closeNavMenu();
+        showSignupModal();
+    });
+    document.getElementById('logoutBtnMobile')?.addEventListener('click', () => {
+        closeNavMenu();
+        logout();
+    });
 
     // Hero buttons
     document.getElementById('heroGetStarted')?.addEventListener('click', () => {

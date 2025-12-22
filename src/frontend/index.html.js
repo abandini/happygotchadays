@@ -42,6 +42,12 @@ export const html = `<!DOCTYPE html>
                 <a href="#discover" class="nav-link">Discover</a>
                 <a href="#my-pets" class="nav-link" id="myPetsLink" style="display: none;">My Pets</a>
                 <a href="#profile" class="nav-link" id="profileLink" style="display: none;">Profile</a>
+                <!-- Mobile Auth Buttons -->
+                <div class="nav-actions-mobile">
+                    <button class="btn btn-primary" id="loginBtnMobile">Login</button>
+                    <button class="btn btn-secondary" id="signupBtnMobile">Sign Up</button>
+                    <button class="btn btn-outline" id="logoutBtnMobile" style="display: none;">Logout</button>
+                </div>
             </div>
             <div class="nav-actions">
                 <button class="btn btn-primary" id="loginBtn">Login</button>
