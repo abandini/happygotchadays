@@ -60,6 +60,26 @@ pets.post('/', authMiddleware, async (c) => {
 });
 
 /**
+ * GET /api/pets
+ * Get current user's pets (requires authentication)
+ */
+pets.get('/', authMiddleware, async (c) => {
+  try {
+    const user = c.get('user');
+
+    const { results: userPets } = await c.env.DB.prepare(
+      'SELECT * FROM pets WHERE user_id = ? ORDER BY created_at DESC'
+    ).bind(user.id).all();
+
+    return c.json({ pets: userPets });
+
+  } catch (error) {
+    console.error('Get user pets error:', error);
+    return c.json({ error: 'Failed to retrieve pets' }, 500);
+  }
+});
+
+/**
  * GET /api/pets/:id
  * Get pet profile by ID
  */
