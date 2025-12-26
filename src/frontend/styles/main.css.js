@@ -199,6 +199,10 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
     align-items: center;
 }
 
+.nav-actions-mobile {
+    display: none;
+}
+
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -1064,6 +1068,252 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 .modal-content button {
     width: 100%;
     margin-top: var(--space-sm);
+}
+
+/* Modal Header */
+.modal-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.modal-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+}
+
+.modal-subtitle {
+    color: var(--charcoal-light);
+    font-size: 0.95rem;
+    margin-top: var(--space-xs);
+}
+
+.modal-footer-text {
+    text-align: center;
+    margin-top: var(--space-md);
+    color: var(--charcoal-light);
+}
+
+.modal-footer-text a {
+    color: var(--coral);
+    font-weight: 700;
+}
+
+/* Modal Variants */
+.modal-content--upload,
+.modal-content--post,
+.modal-content--pet,
+.modal-content--comments {
+    max-width: 500px;
+}
+
+.modal-content--upload::before { content: '📷'; }
+.modal-content--post::before { content: '🎊'; }
+.modal-content--pet::before { content: '🐾'; }
+.modal-content--comments::before { content: '💬'; }
+
+/* File Upload Area */
+.file-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    border: 3px dashed var(--cream-dark);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    background: var(--cream);
+    overflow: hidden;
+}
+
+.file-upload-area:hover {
+    border-color: var(--sunshine);
+    background: var(--sunshine-light);
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+}
+
+.upload-icon {
+    font-size: 3rem;
+}
+
+.upload-text {
+    font-weight: 700;
+    color: var(--charcoal);
+}
+
+.upload-hint {
+    font-size: 0.85rem;
+    color: var(--charcoal-light);
+}
+
+.photo-preview {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+}
+
+/* Post Preview Card */
+.post-preview-card {
+    background: linear-gradient(135deg, var(--sunshine-light), var(--coral-light));
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-md);
+    border: 3px solid var(--sunshine);
+}
+
+.post-preview-pet {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.pet-emoji {
+    font-size: 2.5rem;
+}
+
+.years-badge {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--coral-dark);
+    font-weight: 600;
+    margin-top: var(--space-xs);
+}
+
+/* Anniversary Selector */
+.anniversary-selector {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.anniversary-option {
+    flex: 1;
+    padding: var(--space-sm) var(--space-md);
+    border: 3px solid var(--cream-dark);
+    border-radius: var(--radius-md);
+    background: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.anniversary-option:hover {
+    border-color: var(--sunshine);
+}
+
+.anniversary-option.selected {
+    background: var(--sunshine);
+    border-color: var(--sunshine-dark);
+    color: var(--charcoal);
+}
+
+/* Form Actions (multiple buttons) */
+.form-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+/* Danger Button */
+.btn-danger {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #ee5a5a, #dd4a4a);
+    transform: translateY(-2px);
+}
+
+/* Checkbox Label */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--sunshine);
+    cursor: pointer;
+}
+
+/* Form Row */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+/* Comments List */
+.comments-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: var(--space-md);
+}
+
+.comment {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--cream-dark);
+}
+
+.comment:last-child {
+    border-bottom: none;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-author {
+    font-weight: 700;
+    color: var(--charcoal);
+}
+
+.comment-text {
+    margin: var(--space-xs) 0;
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: var(--charcoal-light);
+}
+
+.comment-form {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.comment-form input {
+    flex: 1;
+}
+
+.comment-form .btn {
+    width: auto;
+}
+
+.login-prompt {
+    text-align: center;
+    color: var(--charcoal-light);
+    font-style: italic;
 }
 
 /* ===== CONFETTI ===== */

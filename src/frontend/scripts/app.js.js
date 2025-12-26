@@ -429,8 +429,8 @@ function showAddPetModal() {
             name: formData.get('name'),
             species: formData.get('species'),
             breed: formData.get('breed') || null,
-            gotcha_date: formData.get('gotcha_date'),
-            adoption_story: formData.get('adoption_story') || null
+            gotchaDate: formData.get('gotcha_date'),
+            adoptionStory: formData.get('adoption_story') || null
         };
 
         try {
@@ -1108,17 +1108,381 @@ function showToast(message, type = 'info') {
     }, 4000);
 }
 
-// Placeholder functions for pet actions
-window.uploadPetPhoto = function(petId) {
-    showToast('Photo upload coming soon! 📷', 'info');
+// Photo Upload Modal
+window.uploadPetPhoto = async function(petId) {
+    if (!authToken) {
+        showLoginModal();
+        return;
+    }
+
+    const modal = \`
+        <div class="modal" onclick="closeModal(event)">
+            <div class="modal-content modal-content--upload">
+                <div class="modal-header">
+                    <span class="modal-icon">📷</span>
+                    <h2>Add a Photo</h2>
+                    <p class="modal-subtitle">Share a cute moment!</p>
+                </div>
+                <form id="uploadPhotoForm">
+                    <div class="form-group">
+                        <label class="file-upload-area" id="fileUploadArea">
+                            <input type="file" id="photoFile" name="file" accept="image/*" required hidden>
+                            <div class="upload-placeholder" id="uploadPlaceholder">
+                                <span class="upload-icon">📸</span>
+                                <span class="upload-text">Click to select a photo</span>
+                                <span class="upload-hint">JPEG, PNG, WebP, GIF • Max 10MB</span>
+                            </div>
+                            <img id="photoPreview" class="photo-preview" style="display: none;" />
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="photoCaption">Caption (optional)</label>
+                        <input type="text" id="photoCaption" name="caption" placeholder="What's happening in this photo?">
+                    </div>
+                    <button type="submit" class="btn btn-large btn-primary btn-full-width" id="uploadBtn">
+                        <span class="btn-icon-left">📤</span>
+                        Upload Photo
+                    </button>
+                </form>
+            </div>
+        </div>
+    \`;
+    document.getElementById('modalContainer').innerHTML = modal;
+
+    // File preview handling
+    const fileInput = document.getElementById('photoFile');
+    const preview = document.getElementById('photoPreview');
+    const placeholder = document.getElementById('uploadPlaceholder');
+    const uploadArea = document.getElementById('fileUploadArea');
+
+    uploadArea.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Form submission
+    document.getElementById('uploadPhotoForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const uploadBtn = document.getElementById('uploadBtn');
+        const file = fileInput.files[0];
+        const caption = document.getElementById('photoCaption').value;
+
+        if (!file) {
+            showToast('Please select a photo', 'warning');
+            return;
+        }
+
+        uploadBtn.disabled = true;
+        uploadBtn.innerHTML = '<span class="btn-icon-left">⏳</span> Uploading...';
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('petId', petId);
+        if (caption) formData.append('caption', caption);
+
+        try {
+            const res = await fetch(\`\${API_BASE}/photos/upload\`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': \`Bearer \${authToken}\`
+                },
+                body: formData
+            });
+
+            if (res.ok) {
+                closeModal();
+                triggerConfetti();
+                showToast('Photo uploaded! 📸', 'success');
+                loadMyPets();
+            } else {
+                const error = await res.json();
+                showToast('Error: ' + (error.error || 'Upload failed'), 'error');
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<span class="btn-icon-left">📤</span> Upload Photo';
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            showToast('Failed to upload photo', 'error');
+            uploadBtn.disabled = false;
+            uploadBtn.innerHTML = '<span class="btn-icon-left">📤</span> Upload Photo';
+        }
+    });
 };
 
-window.createGotchaDayPost = function(petId) {
-    showToast('Post creation coming soon! 🎉', 'info');
+// Create Gotcha Day Post Modal
+window.createGotchaDayPost = async function(petId) {
+    if (!authToken) {
+        showLoginModal();
+        return;
+    }
+
+    // Get pet info first
+    let pet = null;
+    try {
+        const res = await fetch(\`\${API_BASE}/pets/\${petId}\`, {
+            headers: { 'Authorization': \`Bearer \${authToken}\` }
+        });
+        const data = await res.json();
+        pet = data.pet;
+    } catch (error) {
+        showToast('Failed to load pet info', 'error');
+        return;
+    }
+
+    const gotchaDate = new Date(pet.gotcha_date);
+    const now = new Date();
+    const yearsWithFamily = now.getFullYear() - gotchaDate.getFullYear();
+
+    const modal = \`
+        <div class="modal" onclick="closeModal(event)">
+            <div class="modal-content modal-content--post">
+                <div class="modal-header">
+                    <span class="modal-icon">🎉</span>
+                    <h2>Celebrate \${pet.name}!</h2>
+                    <p class="modal-subtitle">Share your gotcha day celebration</p>
+                </div>
+                <div class="post-preview-card">
+                    <div class="post-preview-pet">
+                        <span class="pet-emoji">\${pet.species === 'dog' ? '🐶' : '🐱'}</span>
+                        <div>
+                            <strong>\${pet.name}</strong>
+                            <span class="years-badge">\${yearsWithFamily} year\${yearsWithFamily !== 1 ? 's' : ''} together 🎊</span>
+                        </div>
+                    </div>
+                </div>
+                <form id="createPostForm">
+                    <div class="form-group">
+                        <label for="postContent">Your Celebration Message</label>
+                        <textarea id="postContent" name="content" placeholder="Share your favorite memory, how you found each other, or what makes \${pet.name} special..." rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Anniversary Year</label>
+                        <div class="anniversary-selector">
+                            <button type="button" class="anniversary-option \${yearsWithFamily > 0 ? 'selected' : ''}" data-year="\${yearsWithFamily}">\${yearsWithFamily} Year\${yearsWithFamily !== 1 ? 's' : ''}</button>
+                            <button type="button" class="anniversary-option" data-year="0">Just Celebrating</button>
+                        </div>
+                        <input type="hidden" id="anniversaryYear" value="\${yearsWithFamily}">
+                    </div>
+                    <button type="submit" class="btn btn-large btn-primary btn-full-width" id="postBtn">
+                        <span class="btn-icon-left">🎉</span>
+                        Share Celebration!
+                    </button>
+                </form>
+            </div>
+        </div>
+    \`;
+    document.getElementById('modalContainer').innerHTML = modal;
+
+    // Anniversary selector
+    document.querySelectorAll('.anniversary-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.anniversary-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('anniversaryYear').value = btn.dataset.year;
+        });
+    });
+
+    // Form submission
+    document.getElementById('createPostForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const postBtn = document.getElementById('postBtn');
+        const content = document.getElementById('postContent').value;
+        const anniversaryYear = parseInt(document.getElementById('anniversaryYear').value);
+
+        postBtn.disabled = true;
+        postBtn.innerHTML = '<span class="btn-icon-left">⏳</span> Posting...';
+
+        try {
+            const res = await fetch(\`\${API_BASE}/social/posts\`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': \`Bearer \${authToken}\`
+                },
+                body: JSON.stringify({
+                    petId,
+                    content,
+                    anniversaryYear: anniversaryYear > 0 ? anniversaryYear : null
+                })
+            });
+
+            if (res.ok) {
+                closeModal();
+                triggerConfetti();
+                triggerHeartBurst();
+                showToast(\`🎉 \${pet.name}'s celebration is live!\`, 'success');
+                loadFeed();
+            } else {
+                const error = await res.json();
+                showToast('Error: ' + (error.error || 'Failed to create post'), 'error');
+                postBtn.disabled = false;
+                postBtn.innerHTML = '<span class="btn-icon-left">🎉</span> Share Celebration!';
+            }
+        } catch (error) {
+            console.error('Create post error:', error);
+            showToast('Failed to create post', 'error');
+            postBtn.disabled = false;
+            postBtn.innerHTML = '<span class="btn-icon-left">🎉</span> Share Celebration!';
+        }
+    });
 };
 
-window.editPet = function(petId) {
-    showToast('Pet editing coming soon! ✏️', 'info');
+// Edit Pet Modal
+window.editPet = async function(petId) {
+    if (!authToken) {
+        showLoginModal();
+        return;
+    }
+
+    // Get current pet data
+    let pet = null;
+    try {
+        const res = await fetch(\`\${API_BASE}/pets/\${petId}\`, {
+            headers: { 'Authorization': \`Bearer \${authToken}\` }
+        });
+        const data = await res.json();
+        pet = data.pet;
+    } catch (error) {
+        showToast('Failed to load pet info', 'error');
+        return;
+    }
+
+    const modal = \`
+        <div class="modal" onclick="closeModal(event)">
+            <div class="modal-content modal-content--pet">
+                <div class="modal-header">
+                    <span class="modal-icon">✏️</span>
+                    <h2>Edit \${pet.name}</h2>
+                    <p class="modal-subtitle">Update your pet's profile</p>
+                </div>
+                <form id="editPetForm">
+                    <div class="form-group">
+                        <label for="editPetName">Pet Name</label>
+                        <input type="text" id="editPetName" name="name" value="\${pet.name}" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPetSpecies">Species</label>
+                            <select id="editPetSpecies" name="species" required>
+                                <option value="dog" \${pet.species === 'dog' ? 'selected' : ''}>🐶 Dog</option>
+                                <option value="cat" \${pet.species === 'cat' ? 'selected' : ''}>🐱 Cat</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPetBreed">Breed</label>
+                            <input type="text" id="editPetBreed" name="breed" value="\${pet.breed || ''}" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editGotchaDate">Gotcha Day 🎉</label>
+                        <input type="date" id="editGotchaDate" name="gotcha_date" value="\${pet.gotcha_date}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdoptionStory">Adoption Story</label>
+                        <textarea id="editAdoptionStory" name="adoption_story" placeholder="Tell us how you found each other..." rows="3">\${pet.adoption_story || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editIsPublic" name="is_public" \${pet.is_public ? 'checked' : ''}>
+                            <span>Make profile public</span>
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-large btn-primary" id="saveBtn">
+                            <span class="btn-icon-left">💾</span>
+                            Save Changes
+                        </button>
+                        <button type="button" class="btn btn-large btn-danger" id="deleteBtn">
+                            <span class="btn-icon-left">🗑️</span>
+                            Delete Pet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    \`;
+    document.getElementById('modalContainer').innerHTML = modal;
+
+    // Form submission
+    document.getElementById('editPetForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const saveBtn = document.getElementById('saveBtn');
+
+        const updates = {
+            name: document.getElementById('editPetName').value,
+            species: document.getElementById('editPetSpecies').value,
+            breed: document.getElementById('editPetBreed').value || null,
+            gotcha_date: document.getElementById('editGotchaDate').value,
+            adoption_story: document.getElementById('editAdoptionStory').value || null,
+            is_public: document.getElementById('editIsPublic').checked ? 1 : 0
+        };
+
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="btn-icon-left">⏳</span> Saving...';
+
+        try {
+            const res = await fetch(\`\${API_BASE}/pets/\${petId}\`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': \`Bearer \${authToken}\`
+                },
+                body: JSON.stringify(updates)
+            });
+
+            if (res.ok) {
+                closeModal();
+                showToast(\`\${updates.name}'s profile updated! ✨\`, 'success');
+                loadMyPets();
+            } else {
+                const error = await res.json();
+                showToast('Error: ' + (error.error || 'Failed to update'), 'error');
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<span class="btn-icon-left">💾</span> Save Changes';
+            }
+        } catch (error) {
+            console.error('Update pet error:', error);
+            showToast('Failed to update pet', 'error');
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = '<span class="btn-icon-left">💾</span> Save Changes';
+        }
+    });
+
+    // Delete button
+    document.getElementById('deleteBtn').addEventListener('click', async () => {
+        if (!confirm(\`Are you sure you want to delete \${pet.name}? This cannot be undone.\`)) {
+            return;
+        }
+
+        try {
+            const res = await fetch(\`\${API_BASE}/pets/\${petId}\`, {
+                method: 'DELETE',
+                headers: { 'Authorization': \`Bearer \${authToken}\` }
+            });
+
+            if (res.ok) {
+                closeModal();
+                showToast(\`\${pet.name} has been removed 😢\`, 'info');
+                loadMyPets();
+            } else {
+                const error = await res.json();
+                showToast('Error: ' + (error.error || 'Failed to delete'), 'error');
+            }
+        } catch (error) {
+            console.error('Delete pet error:', error);
+            showToast('Failed to delete pet', 'error');
+        }
+    });
 };
 
 // Animate Stats on Load
