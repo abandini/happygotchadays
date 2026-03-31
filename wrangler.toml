@@ -3,17 +3,10 @@ main = "src/index.js"
 compatibility_date = "2024-10-01"
 workers_dev = true
 
-# Production environment
-[env.production]
-name = "happygotchadays-production"
 routes = [
-  { pattern = "happygotchadays.com/*", custom_domain = true },
-  { pattern = "www.happygotchadays.com/*", custom_domain = true }
+  { pattern = "happygotchadays.com/*", zone_id = "7a2c1c4b70d66e70a4af0cf3578256b3" },
+  { pattern = "www.happygotchadays.com/*", zone_id = "7a2c1c4b70d66e70a4af0cf3578256b3" }
 ]
-
-# Preview environment
-[env.preview]
-name = "happygotchadays-preview"
 
 # D1 Database binding
 [[d1_databases]]
@@ -34,6 +27,10 @@ id = "5618f8d785c644ae83fe4660fa98c31d"
 [[kv_namespaces]]
 binding = "CACHE"
 id = "10849b13402b40209b5204ec52c7b4c2"
+
+[[kv_namespaces]]
+binding = "BEAST_SEO"
+id = "36c1eaef07ad4d049b0001a6a353fabc"
 
 # AI binding for Workers AI
 [ai]

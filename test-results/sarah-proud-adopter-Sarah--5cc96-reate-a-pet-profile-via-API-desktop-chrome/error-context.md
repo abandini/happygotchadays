@@ -1,0 +1,203 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: 🐾
+        - heading "HappyGotchaDays" [level=1] [ref=e6]
+      - button "Toggle navigation" [ref=e7] [cursor=pointer]
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - text: 🎈
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: 🎈 🎊 🎉
+          - heading "Celebrate Every Gotcha Day!" [level=2] [ref=e16]
+          - paragraph [ref=e17]: Where rescue pet families come together to celebrate adoption anniversaries with love, photos, and party vibes! 🐶🐱
+          - generic [ref=e18]:
+            - button "🎉 Start Celebrating" [ref=e19] [cursor=pointer]:
+              - generic [ref=e20]: 🎉
+              - text: Start Celebrating
+            - button "See Success Stories" [ref=e21] [cursor=pointer]
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e26]:
+              - generic [ref=e27]: 🐶
+              - generic [ref=e28]: Max
+            - generic [ref=e29]: Max 3 years of love!
+            - generic [ref=e30]:
+              - generic [ref=e31]: 🏆
+              - text: Gotcha Day Hero!
+          - generic [ref=e32]: ❤️ 💕 💗
+      - text: 🎉
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - text: 🎊
+        - generic [ref=e37]: 1,247
+        - text: Celebrations
+      - generic [ref=e38]:
+        - text: 🐾
+        - generic [ref=e39]: "892"
+        - text: Rescue Pets
+      - generic [ref=e40]:
+        - text: 🎂
+        - generic [ref=e41]: "34"
+        - text: Celebrating Today!
+      - generic [ref=e42]:
+        - text: ❤️
+        - generic [ref=e43]: 12.5K
+        - text: Hearts Given
+    - generic [ref=e46]:
+      - text: 🔥
+      - generic [ref=e47]:
+        - strong [ref=e48]: "23"
+        - text: pets are celebrating their Gotcha Days this week!
+      - button "Join the Party!" [ref=e49] [cursor=pointer]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - text: 🎉
+          - heading "Gotcha Day Celebrations" [level=2] [ref=e54]
+        - generic [ref=e55]:
+          - text: 🔥
+          - text: Trending Now
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - generic [ref=e59]:
+              - generic [ref=e60]: 🐱
+              - generic [ref=e61]: Luna
+            - generic [ref=e62]:
+              - generic [ref=e63]: 🎉
+              - text: Gotcha Day!
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - generic [ref=e66]: L
+              - generic [ref=e67]:
+                - heading "Luna" [level=3] [ref=e68]
+                - paragraph [ref=e69]: LunaLover2025 • cat
+            - generic [ref=e70]:
+              - paragraph [ref=e71]: "Happy 3rd Gotcha Day, Luna! 🎉 Three years ago today, this shy little tabby stole our hearts at the shelter. Now she's the queen of the house and we can't imagine life without her! #AdoptDontShop #GotchaDay"
+              - generic [ref=e72]: 🎊 3 Years Together! 🎊
+              - generic [ref=e73]:
+                - generic [ref=e74] [cursor=pointer]: "#GotchaDay"
+                - generic [ref=e75] [cursor=pointer]: "#RescueCat"
+            - generic [ref=e76]:
+              - button "❤️ 0" [ref=e77] [cursor=pointer]:
+                - generic [ref=e78]: ❤️
+                - generic [ref=e79]: "0"
+              - button "💬 0" [ref=e80] [cursor=pointer]:
+                - generic [ref=e81]: 💬
+                - generic [ref=e82]: "0"
+              - button "🔗 Share" [ref=e83] [cursor=pointer]:
+                - generic [ref=e84]: 🔗
+                - generic [ref=e85]: Share
+        - generic [ref=e86]:
+          - generic [ref=e88]:
+            - generic [ref=e89]: 🐶
+            - generic [ref=e90]: Buddy
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]: T
+              - generic [ref=e94]:
+                - heading "Buddy" [level=3] [ref=e95]
+                - paragraph [ref=e96]: TestUser • dog
+            - generic [ref=e97]:
+              - paragraph [ref=e98]: Celebrating Buddy's gotcha day! So happy we found each other!
+              - generic [ref=e99]:
+                - generic [ref=e100] [cursor=pointer]: "#GotchaDay"
+                - generic [ref=e101] [cursor=pointer]: "#RescueDog"
+            - generic [ref=e102]:
+              - button "❤️ 0" [ref=e103] [cursor=pointer]:
+                - generic [ref=e104]: ❤️
+                - generic [ref=e105]: "0"
+              - button "💬 0" [ref=e106] [cursor=pointer]:
+                - generic [ref=e107]: 💬
+                - generic [ref=e108]: "0"
+              - button "🔗 Share" [ref=e109] [cursor=pointer]:
+                - generic [ref=e110]: 🔗
+                - generic [ref=e111]: Share
+    - generic [ref=e113]:
+      - generic [ref=e114]:
+        - generic [ref=e115]: 🔍
+        - heading "Discover Rescue Pets" [level=2] [ref=e116]
+        - paragraph [ref=e117]: Find furry friends and their heartwarming stories
+      - generic [ref=e118]:
+        - generic [ref=e119]: 🔍
+        - textbox "Search for pets or pet parents..." [ref=e120]
+        - button "Search" [ref=e121] [cursor=pointer]:
+          - generic [ref=e122]: →
+      - generic [ref=e123]:
+        - button "All Pets" [ref=e124]
+        - button "🐶 Dogs" [ref=e125]
+        - button "🐱 Cats" [ref=e126]
+        - button "🆕 Recent" [ref=e127]
+        - button "🎂 Celebrating" [ref=e128]
+      - paragraph [ref=e131]: Finding adorable pets...
+    - generic [ref=e133]:
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - text: 📅
+          - heading "Upcoming Gotcha Days" [level=2] [ref=e136]
+        - link "See Calendar →" [ref=e137] [cursor=pointer]:
+          - /url: "#"
+      - paragraph [ref=e140]: Checking the party calendar...
+    - generic [ref=e142]:
+      - heading "What Is a Gotcha Day?" [level=2] [ref=e144]
+      - paragraph [ref=e145]:
+        - text: A
+        - strong [ref=e146]: gotcha day
+        - text: is the anniversary of the day you adopted your rescue pet from a shelter, rescue organization, or foster home. It celebrates the moment a shelter animal became a beloved family member. Many pet parents mark their pet's gotcha day each year with treats, photos, and celebrations.
+      - paragraph [ref=e147]: HappyGotchaDays helps you track gotcha day anniversaries, share adoption stories, upload celebration photos, and connect with a community of rescue pet families. It is free and works on any device.
+      - generic [ref=e148]:
+        - link "Learn More" [ref=e149] [cursor=pointer]:
+          - /url: /about
+        - link "Read the FAQ" [ref=e150] [cursor=pointer]:
+          - /url: /faq
+  - contentinfo [ref=e151]:
+    - generic [ref=e152]:
+      - generic [ref=e153]:
+        - generic [ref=e154]:
+          - generic [ref=e155]:
+            - text: 🐾
+            - heading "HappyGotchaDays" [level=3] [ref=e156]
+          - paragraph [ref=e157]: Celebrating rescue pets and their forever families
+          - generic [ref=e158]: Made with ❤️ for rescue pets
+        - generic [ref=e159]:
+          - generic [ref=e160]:
+            - heading "About" [level=4] [ref=e161]
+            - list [ref=e162]:
+              - listitem [ref=e163]:
+                - link "Our Story" [ref=e164] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e165]:
+                - link "Why Gotcha Days Matter" [ref=e166] [cursor=pointer]:
+                  - /url: /about#why-gotcha-days-matter
+              - listitem [ref=e167]:
+                - link "FAQ" [ref=e168] [cursor=pointer]:
+                  - /url: /faq
+          - generic [ref=e169]:
+            - heading "Community" [level=4] [ref=e170]
+            - list [ref=e171]:
+              - listitem [ref=e172]:
+                - link "Discover Pets" [ref=e173] [cursor=pointer]:
+                  - /url: "#discover"
+              - listitem [ref=e174]:
+                - link "Celebrations" [ref=e175] [cursor=pointer]:
+                  - /url: "#feed"
+          - generic [ref=e176]:
+            - heading "Support" [level=4] [ref=e177]
+            - list [ref=e178]:
+              - listitem [ref=e179]:
+                - link "Help & FAQ" [ref=e180] [cursor=pointer]:
+                  - /url: /faq
+              - listitem [ref=e181]:
+                - link "Privacy Policy" [ref=e182] [cursor=pointer]:
+                  - /url: /privacy
+      - generic [ref=e183]:
+        - paragraph [ref=e184]: © 2026 HappyGotchaDays. All rights reserved.
+        - paragraph [ref=e185]: 🐶 For rescued dogs and cats everywhere 🐱
+  - alert
+```

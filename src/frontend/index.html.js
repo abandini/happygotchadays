@@ -3,9 +3,66 @@ export const html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Celebrate and share your pet's adoption anniversary - gotcha days for rescued dogs and cats">
+    <meta name="description" content="Celebrate your rescue pet's adoption anniversary! HappyGotchaDays helps pet parents track gotcha days, share photos, and connect with the rescue pet community.">
     <meta name="theme-color" content="#FF6B6B">
-    <title>HappyGotchaDays - Celebrate Your Pet's Adoption Anniversary</title>
+    <title>HappyGotchaDays - Celebrate Your Pet's Gotcha Day Adoption Anniversary</title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://happygotchadays.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HappyGotchaDays">
+    <meta property="og:title" content="HappyGotchaDays - Celebrate Your Pet's Gotcha Day">
+    <meta property="og:description" content="The community for rescue pet families. Track adoption anniversaries, share photos and stories, and celebrate your dog or cat's gotcha day.">
+    <meta property="og:url" content="https://happygotchadays.com/">
+    <meta property="og:image" content="https://happygotchadays.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HappyGotchaDays - Celebrate Your Pet's Gotcha Day">
+    <meta name="twitter:description" content="The community for rescue pet families. Track adoption anniversaries, share photos and stories, and celebrate your dog or cat's gotcha day.">
+    <meta name="twitter:image" content="https://happygotchadays.com/og-image.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HappyGotchaDays",
+      "url": "https://happygotchadays.com",
+      "description": "A community platform for rescue pet families to celebrate gotcha days — the anniversary of pet adoption from shelters and rescues.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "HappyGotchaDays",
+        "url": "https://happygotchadays.com"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "HappyGotchaDays",
+      "url": "https://happygotchadays.com",
+      "description": "Celebrate your rescue pet's gotcha day adoption anniversary",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://happygotchadays.com/#discover?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
@@ -40,6 +97,8 @@ export const html = `<!DOCTYPE html>
             <div class="nav-menu" id="navMenu">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#discover" class="nav-link">Discover</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/faq" class="nav-link">FAQ</a>
                 <a href="#my-pets" class="nav-link" id="myPetsLink" style="display: none;">My Pets</a>
                 <a href="#profile" class="nav-link" id="profileLink" style="display: none;">Profile</a>
                 <!-- Mobile Auth Buttons -->
@@ -354,6 +413,27 @@ export const html = `<!DOCTYPE html>
                 </div>
             </div>
         </section>
+        <!-- What is a Gotcha Day Section (AEO / Featured Snippet optimized) -->
+        <section class="discover-section" id="what-is-gotcha-day" style="background: white; padding: 3rem 0;">
+            <div class="container" style="max-width: 800px;">
+                <div class="section-header section-header--centered">
+                    <h2 class="section-title">What Is a Gotcha Day?</h2>
+                </div>
+                <p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center;">
+                    A <strong>gotcha day</strong> is the anniversary of the day you adopted your rescue pet from a shelter,
+                    rescue organization, or foster home. It celebrates the moment a shelter animal became a beloved family
+                    member. Many pet parents mark their pet's gotcha day each year with treats, photos, and celebrations.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center; color: #636E72;">
+                    HappyGotchaDays helps you track gotcha day anniversaries, share adoption stories, upload celebration
+                    photos, and connect with a community of rescue pet families. It is free and works on any device.
+                </p>
+                <div style="text-align: center;">
+                    <a href="/about" class="btn btn-outline" style="margin-right: 0.75rem;">Learn More</a>
+                    <a href="/faq" class="btn btn-secondary">Read the FAQ</a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -375,31 +455,29 @@ export const html = `<!DOCTYPE html>
                     <div class="footer-section">
                         <h4>About</h4>
                         <ul>
-                            <li><a href="#">Our Story</a></li>
-                            <li><a href="#">Why Gotcha Days Matter</a></li>
-                            <li><a href="#">Success Stories</a></li>
+                            <li><a href="/about">Our Story</a></li>
+                            <li><a href="/about#why-gotcha-days-matter">Why Gotcha Days Matter</a></li>
+                            <li><a href="/faq">FAQ</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
                         <h4>Community</h4>
                         <ul>
-                            <li><a href="#">Pet Parents</a></li>
-                            <li><a href="#">Shelters & Rescues</a></li>
-                            <li><a href="#">Partners</a></li>
+                            <li><a href="#discover">Discover Pets</a></li>
+                            <li><a href="#feed">Celebrations</a></li>
                         </ul>
                     </div>
                     <div class="footer-section">
                         <h4>Support</h4>
                         <ul>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="/faq">Help &amp; FAQ</a></li>
+                            <li><a href="/privacy">Privacy Policy</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 HappyGotchaDays. All rights reserved.</p>
+                <p>&copy; 2026 HappyGotchaDays. All rights reserved.</p>
                 <p class="footer-pets">🐶 For rescued dogs and cats everywhere 🐱</p>
             </div>
         </div>
