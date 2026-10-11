@@ -144,8 +144,12 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
     50% { transform: rotate(5deg); }
 }
 
-.nav-brand h1 {
+.nav-brand h1,
+.nav-brand .brand-name {
     font-family: 'Fredoka One', cursive;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
     font-size: 1.75rem;
     background: linear-gradient(135deg, var(--coral) 0%, var(--sunshine) 100%);
     -webkit-background-clip: text;
@@ -1467,7 +1471,8 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
         position: relative;
     }
 
-    .nav-brand h1 {
+    .nav-brand h1,
+    .nav-brand .brand-name {
         font-size: 1.25rem;
     }
 

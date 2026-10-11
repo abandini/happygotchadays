@@ -5,7 +5,7 @@ export const html = `<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Celebrate your rescue pet's adoption anniversary! HappyGotchaDays helps pet parents track gotcha days, share photos, and connect with the rescue pet community.">
     <meta name="theme-color" content="#FF6B6B">
-    <title>HappyGotchaDays - Celebrate Your Pet's Gotcha Day Adoption Anniversary</title>
+    <title>HappyGotchaDays - Celebrate Your Pet's Gotcha Day</title>
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://happygotchadays.com/">
@@ -64,6 +64,21 @@ export const html = `<!DOCTYPE html>
     }
     </script>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is a gotcha day?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A gotcha day is the anniversary of the day you adopted your rescue pet from a shelter, rescue organization, or foster home. It celebrates the moment a shelter animal became a beloved family member. Many pet parents mark their pet's gotcha day each year with treats, photos, and celebrations."
+        }
+      }]
+    }
+    </script>
+
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
 
@@ -71,6 +86,10 @@ export const html = `<!DOCTYPE html>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-3401889582473794">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401889582473794" crossorigin="anonymous"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="/styles/main.css">
@@ -92,7 +111,7 @@ export const html = `<!DOCTYPE html>
         <div class="container">
             <div class="nav-brand">
                 <span class="logo">🐾</span>
-                <h1>HappyGotchaDays</h1>
+                <span class="brand-name">HappyGotchaDays</span>
             </div>
             <div class="nav-menu" id="navMenu">
                 <a href="#home" class="nav-link active">Home</a>
@@ -142,10 +161,10 @@ export const html = `<!DOCTYPE html>
                         <span class="party-icon">🎊</span>
                         <span class="party-icon">🎉</span>
                     </div>
-                    <h2 class="hero-title">
+                    <h1 class="hero-title">
                         Celebrate Every
                         <span class="gradient-text">Gotcha Day!</span>
-                    </h2>
+                    </h1>
                     <p class="hero-subtitle">
                         Where rescue pet families come together to celebrate adoption anniversaries
                         with love, photos, and party vibes! 🐶🐱
@@ -193,6 +212,28 @@ export const html = `<!DOCTYPE html>
                             <span class="heart" style="animation-delay: 1s;">💗</span>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is a Gotcha Day Section (AEO / Featured Snippet optimized) -->
+        <section class="discover-section" id="what-is-gotcha-day" style="background: white; padding: 3rem 0;">
+            <div class="container" style="max-width: 800px;">
+                <div class="section-header section-header--centered">
+                    <h2 class="section-title">What Is a Gotcha Day?</h2>
+                </div>
+                <p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center;">
+                    A <strong>gotcha day</strong> is the anniversary of the day you adopted your rescue pet from a shelter,
+                    rescue organization, or foster home. It celebrates the moment a shelter animal became a beloved family
+                    member. Many pet parents mark their pet's gotcha day each year with treats, photos, and celebrations.
+                </p>
+                <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center; color: #636E72;">
+                    HappyGotchaDays helps you track gotcha day anniversaries, share adoption stories, upload celebration
+                    photos, and connect with a community of rescue pet families. It is free and works on any device.
+                </p>
+                <div style="text-align: center;">
+                    <a href="/about" class="btn btn-outline" style="margin-right: 0.75rem;">Learn More</a>
+                    <a href="/faq" class="btn btn-secondary">Read the FAQ</a>
                 </div>
             </div>
         </section>
@@ -410,27 +451,6 @@ export const html = `<!DOCTYPE html>
                         <div class="loading-spinner"></div>
                         <p class="loading-text">Loading your profile...</p>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- What is a Gotcha Day Section (AEO / Featured Snippet optimized) -->
-        <section class="discover-section" id="what-is-gotcha-day" style="background: white; padding: 3rem 0;">
-            <div class="container" style="max-width: 800px;">
-                <div class="section-header section-header--centered">
-                    <h2 class="section-title">What Is a Gotcha Day?</h2>
-                </div>
-                <p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center;">
-                    A <strong>gotcha day</strong> is the anniversary of the day you adopted your rescue pet from a shelter,
-                    rescue organization, or foster home. It celebrates the moment a shelter animal became a beloved family
-                    member. Many pet parents mark their pet's gotcha day each year with treats, photos, and celebrations.
-                </p>
-                <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; text-align: center; color: #636E72;">
-                    HappyGotchaDays helps you track gotcha day anniversaries, share adoption stories, upload celebration
-                    photos, and connect with a community of rescue pet families. It is free and works on any device.
-                </p>
-                <div style="text-align: center;">
-                    <a href="/about" class="btn btn-outline" style="margin-right: 0.75rem;">Learn More</a>
-                    <a href="/faq" class="btn btn-secondary">Read the FAQ</a>
                 </div>
             </div>
         </section>

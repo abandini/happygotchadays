@@ -3,6 +3,12 @@ main = "src/index.js"
 compatibility_date = "2024-10-01"
 workers_dev = true
 
+# Binary assets (og-image, favicons, PWA icons) imported as ArrayBuffer modules
+[[rules]]
+type = "Data"
+globs = ["**/*.png"]
+fallthrough = true
+
 routes = [
   { pattern = "happygotchadays.com/*", zone_id = "7a2c1c4b70d66e70a4af0cf3578256b3" },
   { pattern = "www.happygotchadays.com/*", zone_id = "7a2c1c4b70d66e70a4af0cf3578256b3" }

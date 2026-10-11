@@ -25,22 +25,21 @@ Sitemap: ${CANONICAL}/sitemap.xml
 });
 
 // ──── sitemap.xml ────
+// lastmod = date the page's content last changed. Update it when you edit a page.
 seo.get('/sitemap.xml', (c) => {
-  const now = new Date().toISOString().split('T')[0];
-
   const urls = [
-    { loc: '/', changefreq: 'daily', priority: '1.0' },
-    { loc: '/about', changefreq: 'monthly', priority: '0.8' },
-    { loc: '/faq', changefreq: 'monthly', priority: '0.7' },
-    { loc: '/shop', changefreq: 'weekly', priority: '0.9' },
-    { loc: '/privacy', changefreq: 'yearly', priority: '0.3' },
+    { loc: '/', lastmod: '2026-10-11', changefreq: 'daily', priority: '1.0' },
+    { loc: '/about', lastmod: '2026-10-11', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/faq', lastmod: '2026-10-11', changefreq: 'monthly', priority: '0.7' },
+    { loc: '/shop', lastmod: '2026-10-11', changefreq: 'weekly', priority: '0.9' },
+    { loc: '/privacy', lastmod: '2026-10-11', changefreq: 'yearly', priority: '0.3' },
   ];
 
   const urlEntries = urls
     .map(
       (u) => `  <url>
     <loc>${CANONICAL}${u.loc}</loc>
-    <lastmod>${now}</lastmod>
+    <lastmod>${u.lastmod}</lastmod>
     <changefreq>${u.changefreq}</changefreq>
     <priority>${u.priority}</priority>
   </url>`
@@ -56,6 +55,51 @@ ${urlEntries}
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
       'Cache-Control': 'public, max-age=3600',
+    },
+  });
+});
+
+// ──── ads.txt (Google AdSense) ────
+seo.get('/ads.txt', (c) => {
+  return new Response('google.com, pub-3401889582473794, DIRECT, f08c47fec0942fa0\n', {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400',
+    },
+  });
+});
+
+// ──── llms.txt (AEO: plain-text summary for AI crawlers) ────
+seo.get('/llms.txt', (c) => {
+  const txt = `# HappyGotchaDays
+
+> HappyGotchaDays (happygotchadays.com) is a free community site where rescue pet families celebrate gotcha days: the anniversary of the day a dog or cat was adopted from a shelter, rescue organization, or foster home.
+
+## What is a gotcha day?
+
+A gotcha day is the anniversary of the day you adopted your rescue pet. It marks the day a shelter animal became part of your family. Many pet parents treat it like a second birthday and celebrate with treats, photos, a walk or outing, and by sharing the adoption story. For many rescue pets the birth date is unknown, so the gotcha day is the one certain date to celebrate.
+
+This site is only about companion-animal (dog and cat) adoption anniversaries.
+
+## Pages
+
+- ${CANONICAL}/ : Home. Definition of a gotcha day, upcoming gotcha day countdowns, community celebrations, pet discovery.
+- ${CANONICAL}/about : What a gotcha day is, why it matters, how the site works.
+- ${CANONICAL}/faq : Answers to common gotcha day questions (what it is, how it differs from a birthday, how to celebrate, reminders, privacy).
+- ${CANONICAL}/shop : Gotcha day stickers and t-shirts for rescue pet parents.
+- ${CANONICAL}/privacy : Privacy policy.
+
+## Features
+
+- Pet profiles with name, species, breed, adoption story, photos, and gotcha date
+- Gotcha day anniversary reminders and a countdown of upcoming gotcha days
+- Celebration posts with likes and comments; follow other rescue families
+- Free to use; installable as a Progressive Web App
+`;
+  return new Response(txt, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400',
     },
   });
 });
@@ -96,7 +140,12 @@ function pageShell({ title, description, canonical, body, jsonLd }) {
 
     <meta name="theme-color" content="#FF6B6B">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-3401889582473794">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401889582473794" crossorigin="anonymous"></script>
 
     ${jsonLdScript}
 
@@ -107,7 +156,7 @@ function pageShell({ title, description, canonical, body, jsonLd }) {
         <div class="container">
             <div class="nav-brand">
                 <span class="logo">🐾</span>
-                <a href="/" style="text-decoration:none;"><h1>HappyGotchaDays</h1></a>
+                <a href="/" style="text-decoration:none;"><span class="brand-name">HappyGotchaDays</span></a>
             </div>
             <div class="nav-menu">
                 <a href="/" class="nav-link">Home</a>
@@ -159,8 +208,8 @@ function pageShell({ title, description, canonical, body, jsonLd }) {
 
 // ──── /about page ────
 seo.get('/about', (c) => {
-  const title = 'About HappyGotchaDays - Celebrating Rescue Pet Adoption Anniversaries';
-  const description = 'HappyGotchaDays is the community platform where rescue pet families celebrate gotcha days — the anniversary of the day a pet was adopted from a shelter or rescue.';
+  const title = 'About HappyGotchaDays - Rescue Pet Gotcha Days';
+  const description = 'HappyGotchaDays is the community where rescue pet families celebrate gotcha days — the anniversary of the day a pet was adopted from a shelter or rescue.';
   const canonical = `${CANONICAL}/about`;
 
   const jsonLd = [
@@ -187,7 +236,7 @@ seo.get('/about', (c) => {
     <section class="hero" style="padding: 3rem 0 2rem;">
       <div class="container">
         <div class="hero-content" style="text-align:center; max-width:800px; margin:0 auto;">
-          <h2 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">What Is a Gotcha Day?</h2>
+          <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">What Is a Gotcha Day?</h1>
           <p class="hero-subtitle" style="max-width:700px; margin:0 auto 2rem;">
             A <strong>gotcha day</strong> is the anniversary of the day you adopted your rescue pet.
             It marks the moment a shelter animal found their forever home and became part of your family.
@@ -215,7 +264,7 @@ seo.get('/about', (c) => {
           <li>Connect with fellow rescue pet parents</li>
         </ul>
 
-        <h2 class="section-title" style="text-align:center;">Why Gotcha Days Matter</h2>
+        <h2 class="section-title" id="why-gotcha-days-matter" style="text-align:center;">Why Gotcha Days Matter</h2>
         <p style="font-size:1.15rem; line-height:1.8; margin-bottom:1.5rem;">
           Celebrating gotcha days does more than mark a date on the calendar. It reinforces the bond
           between you and your pet, raises awareness for pet adoption, and inspires others to consider
@@ -338,7 +387,7 @@ seo.get('/faq', (c) => {
   const body = `
     <section style="padding: 3rem 0;">
       <div class="container" style="max-width:800px;">
-        <h2 class="section-title" style="text-align:center; margin-bottom:0.5rem;">Frequently Asked Questions</h2>
+        <h1 class="section-title" style="text-align:center; margin-bottom:0.5rem;">Frequently Asked Questions</h1>
         <p style="text-align:center; color:#636E72; margin-bottom:2rem; font-size:1.1rem;">
           Everything you need to know about gotcha days and HappyGotchaDays.
         </p>
@@ -367,7 +416,7 @@ seo.get('/privacy', (c) => {
   const body = `
     <section style="padding: 3rem 0;">
       <div class="container" style="max-width:800px;">
-        <h2 class="section-title" style="text-align:center;">Privacy Policy</h2>
+        <h1 class="section-title" style="text-align:center;">Privacy Policy</h1>
         <p style="line-height:1.8; margin-bottom:1.5rem;">
           <strong>Last updated:</strong> February 2026
         </p>
