@@ -437,8 +437,14 @@ seo.get('/privacy', (c) => {
         </p>
         <h3 style="margin:1.5rem 0 0.75rem;">Cookies & Storage</h3>
         <p style="line-height:1.8; margin-bottom:1rem;">
-          We use a JWT token stored in your browser's localStorage for authentication. We do not use
-          third-party tracking cookies.
+          We use a JWT token stored in your browser's localStorage for authentication. We also use
+          Google Analytics to count visits and Google AdSense to show ads. Third-party vendors, including
+          Google, use cookies to serve ads based on your prior visits to this and other websites. Google's
+          use of advertising cookies enables it and its partners to serve ads to you based on your visits
+          to this site and/or other sites on the Internet. You can opt out of personalized advertising at
+          <a href="https://adssettings.google.com/" rel="noopener">Google Ads Settings</a> or at
+          <a href="https://www.aboutads.info/choices/" rel="noopener">www.aboutads.info</a>, and read
+          <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">how Google uses information from sites that use its services</a>.
         </p>
         <h3 style="margin:1.5rem 0 0.75rem;">Contact</h3>
         <p style="line-height:1.8; margin-bottom:1rem;">
