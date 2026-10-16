@@ -1485,41 +1485,6 @@ window.editPet = async function(petId) {
     });
 };
 
-// Animate Stats on Load
-function animateStats() {
-    const stats = [
-        { id: 'totalCelebrations', target: 1247 },
-        { id: 'totalPets', target: 892 },
-        { id: 'celebrationsToday', target: 34 },
-        { id: 'totalHearts', target: 12500, format: 'K' }
-    ];
-
-    stats.forEach(stat => {
-        const element = document.getElementById(stat.id);
-        if (!element) return;
-
-        let current = 0;
-        const increment = stat.target / 50;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= stat.target) {
-                current = stat.target;
-                clearInterval(timer);
-            }
-
-            if (stat.format === 'K') {
-                element.textContent = (current / 1000).toFixed(1) + 'K';
-            } else {
-                element.textContent = Math.floor(current).toLocaleString();
-            }
-        }, 30);
-    });
-}
-
-// Trigger celebration on page load
-setTimeout(() => {
-    animateStats();
-}, 500);
 
 // Welcome confetti for new visitors
 if (!localStorage.getItem('hasVisited')) {

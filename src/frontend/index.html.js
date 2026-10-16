@@ -238,34 +238,6 @@ export const html = `<!DOCTYPE html>
             </div>
         </section>
 
-        <!-- Community Stats -->
-        <section class="stats-section">
-            <div class="container">
-                <div class="community-stats">
-                    <div class="stat-item">
-                        <span class="stat-icon">🎊</span>
-                        <span class="stat-number" id="totalCelebrations">1,247</span>
-                        <span class="stat-label">Celebrations</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-icon">🐾</span>
-                        <span class="stat-number" id="totalPets">892</span>
-                        <span class="stat-label">Rescue Pets</span>
-                    </div>
-                    <div class="stat-item stat-item--highlight">
-                        <span class="stat-icon">🎂</span>
-                        <span class="stat-number" id="celebrationsToday">34</span>
-                        <span class="stat-label">Celebrating Today!</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-icon">❤️</span>
-                        <span class="stat-number" id="totalHearts">12.5K</span>
-                        <span class="stat-label">Hearts Given</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Trending Banner -->
         <section class="trending-section">
             <div class="container">
