@@ -427,8 +427,8 @@ seo.get('/faq', (c) => {
     },
     {
       q: 'Where can I take my dog to celebrate a gotcha day?',
-      a: 'Many breweries welcome well-behaved dogs, usually on a patio and on a leash, and a gotcha day is a good excuse for an outing. If you are in Ohio, Brewery Trip keeps a guide to dog-friendly Ohio breweries, quoting each brewery\'s own dog policy. Rules change with the seasons, so check with the brewery before you go.',
-      html: 'Many breweries welcome well-behaved dogs, usually on a patio and on a leash, and a gotcha day is a good excuse for an outing. If you are in Ohio, Brewery Trip keeps a <a href="https://brewerytrip.com/blog/dog-friendly-ohio-breweries" rel="nofollow noopener">guide to dog-friendly Ohio breweries</a>, quoting each brewery\'s own dog policy. Rules change with the seasons, so check with the brewery before you go.',
+      a: 'Many breweries welcome well-behaved dogs, usually on a patio and on a leash, and a gotcha day is a good excuse for an outing. If you are in Ohio, Brewery Trip keeps a guide to dog-friendly Ohio breweries, quoting each brewery\'s own dog policy. For an all-ages outing, Waggin\' Ways lists Ohio dog parks with their posted rules. Rules change with the seasons, so check before you go.',
+      html: 'Many breweries welcome well-behaved dogs, usually on a patio and on a leash, and a gotcha day is a good excuse for an outing. If you are in Ohio, Brewery Trip keeps a <a href="https://brewerytrip.com/blog/dog-friendly-ohio-breweries" rel="nofollow noopener">guide to dog-friendly Ohio breweries</a>, quoting each brewery\'s own dog policy. For an all-ages outing, <a href="https://wagginways.com/ohio/?utm_source=happygotchadays&amp;utm_medium=referral&amp;utm_campaign=dog-triangle" rel="nofollow noopener">Waggin\' Ways lists Ohio dog parks</a> with their posted rules. Rules change with the seasons, so check before you go.',
     },
     {
       q: 'Can I add more than one pet?',
