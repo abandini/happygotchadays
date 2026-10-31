@@ -244,7 +244,7 @@ export const html = `<!DOCTYPE html>
                 <div class="celebration-banner">
                     <span class="banner-icon banner-icon--animated">🔥</span>
                     <span class="banner-text">
-                        <strong id="trendingCount">23</strong> pets are celebrating their Gotcha Days this week!
+                        Celebrating a gotcha day this week? Share it with the community!
                     </span>
                     <button class="btn btn-small btn-accent">Join the Party!</button>
                 </div>

@@ -324,6 +324,11 @@ seo.get('/faq', (c) => {
       a: 'Popular ways to celebrate include: giving your pet a special treat or new toy, taking commemorative photos, baking pet-safe pupcakes or treats, visiting a favorite park or hiking trail, sharing the story on social media with #GotchaDay, and posting on HappyGotchaDays to connect with other rescue families.',
     },
     {
+      q: 'Where can I take my dog to celebrate a gotcha day?',
+      a: 'Many breweries welcome well-behaved dogs, usually on a patio and on a leash, and a gotcha day is a good excuse for an outing. If you are in Ohio, Brewery Trip keeps a guide to dog-friendly Ohio breweries, quoting each brewery\'s own dog policy. Rules change with the seasons, so check with the brewery before you go.',
+      html: 'Many breweries welcome well-behaved dogs, usually on a patio and on a leash, and a gotcha day is a good excuse for an outing. If you are in Ohio, Brewery Trip keeps a <a href="https://brewerytrip.com/blog/dog-friendly-ohio-breweries" rel="nofollow noopener">guide to dog-friendly Ohio breweries</a>, quoting each brewery\'s own dog policy. Rules change with the seasons, so check with the brewery before you go.',
+    },
+    {
       q: 'Can I add more than one pet?',
       a: 'Absolutely! You can add as many rescue pets as you have. Each pet gets its own profile with their name, species, breed, adoption story, photos, and gotcha day anniversary date.',
     },
@@ -379,7 +384,7 @@ seo.get('/faq', (c) => {
             <span>${f.q}</span>
             <span style="font-size:1.5rem; color:#FF6B6B; flex-shrink:0; margin-left:1rem;">+</span>
           </summary>
-          <p style="margin-top:1rem; line-height:1.7; color:#636E72;">${f.a}</p>
+          <p style="margin-top:1rem; line-height:1.7; color:#636E72;">${f.html || f.a}</p>
         </details>`
     )
     .join('\n');
