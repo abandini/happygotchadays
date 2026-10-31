@@ -93,7 +93,7 @@ This site is only about companion-animal (dog and cat) adoption anniversaries.
 ## Features
 
 - Pet profiles with name, species, breed, adoption story, photos, and gotcha date
-- Gotcha day anniversary reminders and a countdown of upcoming gotcha days
+- A list of upcoming gotcha days (email reminders coming soon)
 - Celebration posts with likes and comments; follow other rescue families
 - Free to use; installable as a Progressive Web App
 `;
@@ -260,7 +260,7 @@ seo.get('/about', (c) => {
         </p>
         <ul style="font-size:1.1rem; line-height:2; margin-bottom:2rem; padding-left:1.5rem;">
           <li>Create a profile for each of your rescue pets</li>
-          <li>Set reminders so you never miss a gotcha day anniversary</li>
+          <li>See upcoming gotcha day anniversaries at a glance (email reminders coming soon)</li>
           <li>Share photos and adoption stories with the community</li>
           <li>Discover other rescue pets and their heartwarming journeys</li>
           <li>Connect with fellow rescue pet parents</li>
@@ -293,7 +293,7 @@ seo.get('/about', (c) => {
           <div style="background:white; padding:1.5rem; border-radius:16px; text-align:center; box-shadow:0 4px 20px rgba(255,107,107,0.12);">
             <div style="font-size:2.5rem; margin-bottom:0.5rem;">3</div>
             <h3 style="margin-bottom:0.5rem;">Celebrate</h3>
-            <p style="color:#636E72;">Share photos, stories, and get reminders.</p>
+            <p style="color:#636E72;">Share photos and stories, and see upcoming gotcha days.</p>
           </div>
         </div>
       </div>
@@ -390,8 +390,8 @@ seo.get('/what-is-gotcha-day', (c) => {
           before you bake anything.
         </p>
         <div style="background:white; border-radius:16px; padding:1.25rem 1.5rem; margin:2rem 0; box-shadow:0 2px 8px rgba(255,107,107,0.08);">
-          <p style="margin:0; line-height:1.7;"><strong>Never miss it.</strong> Add your pet's adoption date to
-          HappyGotchaDays and we'll remind you before the day. It's free. <a href="/">Add your pet</a></p>
+          <p style="margin:0; line-height:1.7;"><strong>Plan ahead.</strong> Add your pet's adoption date to
+          HappyGotchaDays and it shows up in your upcoming gotcha days. Email reminders are coming soon. It's free. <a href="/">Add your pet</a></p>
         </div>
         <h2 style="font-size:1.1rem; color:#2D3436; margin:2rem 0 0.5rem;">Sources</h2>
         <ul style="line-height:1.8; color:#636E72; font-size:0.95rem;">
@@ -419,7 +419,7 @@ seo.get('/faq', (c) => {
     },
     {
       q: 'Is HappyGotchaDays free to use?',
-      a: 'Yes, HappyGotchaDays is completely free. You can create an account, add your pets, upload photos, share adoption stories, and get anniversary reminders at no cost.',
+      a: 'Yes, HappyGotchaDays is completely free. You can create an account, add your pets, upload photos, share adoption stories, and see your pets\' upcoming gotcha days at no cost.',
     },
     {
       q: 'How do I celebrate my pet\'s gotcha day?',
@@ -436,7 +436,7 @@ seo.get('/faq', (c) => {
     },
     {
       q: 'Do you send gotcha day reminders?',
-      a: 'Yes, HappyGotchaDays can send you reminders before your pet\'s gotcha day anniversary so you never miss the celebration. You can customize when you want to be reminded.',
+      a: 'Email reminders are coming soon. Today, your pets\' upcoming gotcha days appear on the home page once you add their adoption dates, so you can plan ahead.',
     },
     {
       q: 'What animals can I add to HappyGotchaDays?',
