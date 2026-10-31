@@ -53,3 +53,10 @@ binding = "ANALYTICS"
 # Observability
 [observability]
 enabled = true
+
+# Gotcha day reminder emails. 13:00 UTC is 9am EDT (summer) and 8am EST (winter).
+# The 13:30 and 14:00 runs retry stale 'pending' sends (same Idempotency-Key,
+# inside Resend's 24h window) and pick up anything over the per-run cap.
+# Needs secrets RESEND_API_KEY and JWT_SECRET, and migrations/0002_reminder_sends.sql applied.
+[triggers]
+crons = ["0 13 * * *", "30 13 * * *", "0 14 * * *"]

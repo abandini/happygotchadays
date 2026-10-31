@@ -10,6 +10,8 @@ import { remindersRoutes } from './routes/reminders.js';
 import { authMiddleware } from './middleware/auth.js';
 import { serveStatic } from './middleware/static.js';
 import { seoRoutes } from './routes/seo.js';
+import { redactLogLine, unsubscribeRoutes } from './routes/unsubscribe.js';
+import { runReminderEmails } from './utils/reminder-emails.js';
 
 const app = new Hono();
 
@@ -58,7 +60,9 @@ app.use('*', async (c, next) => {
 });
 
 // Middleware
-app.use('*', logger());
+// Request logger. Unsubscribe URLs carry a per-user token, so their query
+// string is stripped before logging.
+app.use('*', logger((line, ...rest) => console.log(redactLogLine(line), ...rest)));
 app.use('*', cors({
   origin: ['https://happygotchadays.com', 'https://www.happygotchadays.com'],
   credentials: true,
@@ -88,6 +92,9 @@ app.route('/api/photos', photoRoutes);
 app.route('/api/social', socialRoutes);
 app.route('/api/search', searchRoutes);
 app.route('/api/reminders', remindersRoutes);
+
+// Reminder-email unsubscribe (GET confirm page, POST one-click)
+app.route('/unsubscribe', unsubscribeRoutes);
 
 // Serve static frontend files
 app.use('/*', serveStatic);
@@ -128,4 +135,20 @@ app.onError((err, c) => {
   return c.json({ error: 'Internal server error' }, 500);
 });
 
-export default app;
+/**
+ * Cron (wrangler.toml [triggers]: 13:00, 13:30, 14:00 UTC; 13:00 UTC is 9am EDT
+ * in summer and 8am EST in winter): send gotcha day reminder emails. The two
+ * later runs retry stale sends and pick up anything capped.
+ */
+async function scheduled(event, env, ctx) {
+  ctx.waitUntil(
+    runReminderEmails(env).catch(() => {
+      console.error('reminders: run failed');
+    })
+  );
+}
+
+export default {
+  fetch: app.fetch,
+  scheduled,
+};
