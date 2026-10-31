@@ -30,6 +30,7 @@ seo.get('/sitemap.xml', (c) => {
   const urls = [
     { loc: '/', lastmod: '2026-10-11', changefreq: 'daily', priority: '1.0' },
     { loc: '/about', lastmod: '2026-10-11', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/what-is-gotcha-day', lastmod: '2026-10-31', changefreq: 'monthly', priority: '0.9' },
     { loc: '/faq', lastmod: '2026-10-11', changefreq: 'monthly', priority: '0.7' },
     { loc: '/shop', lastmod: '2026-10-11', changefreq: 'weekly', priority: '0.9' },
     { loc: '/privacy', lastmod: '2026-10-11', changefreq: 'yearly', priority: '0.3' },
@@ -236,10 +237,11 @@ seo.get('/about', (c) => {
     <section class="hero" style="padding: 3rem 0 2rem;">
       <div class="container">
         <div class="hero-content" style="text-align:center; max-width:800px; margin:0 auto;">
-          <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">What Is a Gotcha Day?</h1>
+          <h1 class="hero-title" style="font-size:clamp(2rem,5vw,3rem);">About HappyGotchaDays</h1>
           <p class="hero-subtitle" style="max-width:700px; margin:0 auto 2rem;">
             A <strong>gotcha day</strong> is the anniversary of the day you adopted your rescue pet.
             It marks the moment a shelter animal found their forever home and became part of your family.
+            <a href="/what-is-gotcha-day">What gotcha day means, and other names for it</a>
           </p>
         </div>
       </div>
@@ -253,7 +255,7 @@ seo.get('/about', (c) => {
           We help you remember, celebrate, and share the special day your dog or cat came home.
         </p>
         <p style="font-size:1.15rem; line-height:1.8; margin-bottom:1.5rem;">
-          Every year, approximately <strong>4.1 million shelter animals</strong> are adopted in the United States alone.
+          In 2025, <strong>4.2 million dogs and cats</strong> were adopted from U.S. shelters and rescues (<a href="https://www.shelteranimalscount.org/2025-report/" rel="noopener" target="_blank">Shelter Animals Count</a>).
           Each adoption creates a gotcha day worth celebrating. Our platform lets you:
         </p>
         <ul style="font-size:1.1rem; line-height:2; margin-bottom:2rem; padding-left:1.5rem;">
@@ -297,6 +299,106 @@ seo.get('/about', (c) => {
       </div>
     </section>`;
 
+  return c.html(pageShell({ title, description, canonical, body, jsonLd }));
+});
+
+// ──── /what-is-gotcha-day (explainer) ────
+// Every fact here is from a cited source, checked 2026-10-31. Pets only: the term is controversial in human adoption.
+export const EXPLAINER_QA = [
+  {
+    q: 'What is a gotcha day?',
+    a: 'For pets, a gotcha day is the day you brought your pet home, usually a rescue from a shelter or rescue group, and its anniversary each year. Dictionary.com describes it as "the day people celebrate bringing home their new pet, usually a rescue."',
+  },
+  {
+    q: 'When is gotcha day?',
+    a: 'There is no single gotcha day for pets. Your pet\'s gotcha day is the date you adopted them, so every pet has its own. In 2026, celebrate on the anniversary of the day your dog or cat came home. A September 15 "International Gotcha Day" was declared in 2005 in a book about adopted children, so it comes from the human-adoption community, not from pet rescue.',
+  },
+  {
+    q: 'Is gotcha day for dogs, cats, or both?',
+    a: 'Both. Shelter Animals Count reports that 4.2 million dogs and cats were adopted from U.S. shelters and rescues in 2025: 2.2 million cats and 2 million dogs. Each of those adoptions is a gotcha day.',
+  },
+  {
+    q: 'Why do some people find "gotcha day" offensive?',
+    a: 'The objections come from human adoption. Dictionary.com describes them: the word can suggest acquiring a possession, it can overlook the loss involved in many adoptions, and it may equate children with animals. It also notes that using gotcha day for pets "is not considered very controversial," though some people still prefer another name. HappyGotchaDays is only for dogs and cats.',
+  },
+  {
+    q: 'What else can I call it?',
+    a: 'You could call your pet\'s anniversary Adoption Day, Homecoming Day or an adoptiversary. Dictionary.com also mentions G-Day. Use whichever name feels right for your family. The date and the celebration are the same.',
+  },
+  {
+    q: 'What if I don\'t know my pet\'s exact adoption date?',
+    a: 'A few places to look: your adoption contract or receipt, or the shelter\'s or rescue\'s records, which are the most direct. Your first vet visit or the date on your earliest photos can give you a close clue, not proof. If you can\'t find it, pick a date that means something to you and use it every year.',
+  },
+];
+
+seo.get('/what-is-gotcha-day', (c) => {
+  const title = 'What Is Gotcha Day? Meaning, Date and Other Names for Pets | HappyGotchaDays';
+  const description = 'Gotcha day is the anniversary of the day you adopted your dog or cat. What it means, when it is, why some people avoid the term, and other names like adoptiversary.';
+  const canonical = `${CANONICAL}/what-is-gotcha-day`;
+  const SOURCES = [
+    ['Dictionary.com, "What Does Gotcha Day Mean?"', 'https://www.dictionary.com/e/pop-culture/gotcha-day/'],
+    ['Shelter Animals Count, 2025 annual report', 'https://www.shelteranimalscount.org/2025-report/'],
+    ['ASPCA, pet statistics', 'https://www.aspca.org/animal-homelessness/shelter-intake-and-surrender/pet-statistics'],
+  ];
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: 'What Is Gotcha Day? Meaning, Date and Other Names for Pets',
+      description,
+      url: canonical,
+      datePublished: '2026-10-31',
+      dateModified: '2026-10-31',
+      author: { '@type': 'Organization', name: SITE_NAME, url: CANONICAL },
+      publisher: { '@type': 'Organization', name: SITE_NAME, url: CANONICAL },
+      citation: SOURCES.map(([name, url]) => ({ '@type': 'CreativeWork', name, url })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: EXPLAINER_QA.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: CANONICAL },
+        { '@type': 'ListItem', position: 2, name: 'What Is Gotcha Day?', item: canonical },
+      ],
+    },
+  ];
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const sections = EXPLAINER_QA.map(
+    (f) => `
+        <h2 style="font-size:1.4rem; color:#2D3436; margin:2rem 0 0.5rem;">${esc(f.q)}</h2>
+        <p style="line-height:1.75; color:#4a5357;">${esc(f.a)}</p>`
+  ).join('\n');
+  const body = `
+    <section style="padding: 3rem 0;">
+      <div class="container" style="max-width:760px;">
+        <h1 class="section-title" style="margin-bottom:0.5rem;">What Is Gotcha Day?</h1>
+        <p style="font-size:1.15rem; line-height:1.7; color:#636E72;">
+          Gotcha day is the anniversary of the day you adopted your dog or cat. Here is what it means, when it is,
+          why some people use a different name, and how to find your pet's date.
+        </p>
+        ${sections}
+        <h2 style="font-size:1.4rem; color:#2D3436; margin:2rem 0 0.5rem;">How do people celebrate?</h2>
+        <p style="line-height:1.75; color:#4a5357;">
+          Ideas for a pet-centered celebration include a favorite walk, a new toy, a pet-safe treat, photos then and now, or a
+          donation to the shelter or rescue your pet came from. See our <a href="/faq">FAQ</a> for more ideas, and the
+          ASPCA's <a href="https://www.aspca.org/news/fun-ways-safely-celebrate-your-pets-birthday" rel="noopener" target="_blank">tips for celebrating safely</a>
+          before you bake anything.
+        </p>
+        <div style="background:white; border-radius:16px; padding:1.25rem 1.5rem; margin:2rem 0; box-shadow:0 2px 8px rgba(255,107,107,0.08);">
+          <p style="margin:0; line-height:1.7;"><strong>Never miss it.</strong> Add your pet's adoption date to
+          HappyGotchaDays and we'll remind you before the day. It's free. <a href="/">Add your pet</a></p>
+        </div>
+        <h2 style="font-size:1.1rem; color:#2D3436; margin:2rem 0 0.5rem;">Sources</h2>
+        <ul style="line-height:1.8; color:#636E72; font-size:0.95rem;">
+          ${SOURCES.map(([name, url]) => `<li><a href="${url}" rel="noopener" target="_blank">${name}</a>, checked October 31, 2026</li>`).join('\n          ')}
+        </ul>
+      </div>
+    </section>`;
   return c.html(pageShell({ title, description, canonical, body, jsonLd }));
 });
 
