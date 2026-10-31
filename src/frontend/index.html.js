@@ -1,3 +1,5 @@
+import { OUTBOUND_CLICK_JS } from '../utils/outbound-click.js';
+
 export const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,7 +90,7 @@ export const html = `<!DOCTYPE html>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
     <!-- Google AdSense -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TETK91KG0"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-0TETK91KG0");</script><meta name="google-adsense-account" content="ca-pub-3401889582473794">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0TETK91KG0"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-0TETK91KG0");</script>${OUTBOUND_CLICK_JS}<meta name="google-adsense-account" content="ca-pub-3401889582473794">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401889582473794" crossorigin="anonymous"></script>
 
     <!-- CSS -->
