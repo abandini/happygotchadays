@@ -1,5 +1,14 @@
 import { html } from '../frontend/index.html.js';
 import { css } from '../frontend/styles/main.css.js';
+import { themeCss } from '../frontend/styles/theme.css.js';
+import imgBulldog from '../assets/img/adoption-day-bulldog-camp-pendleton-usmc.webp';
+import imgBrothers from '../assets/img/adoption-day-brothers-new-dog-usmc.webp';
+import imgKitten from '../assets/img/adoption-day-kitten-play-usmc.webp';
+import imgToddler from '../assets/img/adoption-day-toddler-new-puppy-usmc.webp';
+import fontYoungSerif from '../assets/fonts/young-serif-latin-400-normal.woff2';
+import fontFigtree from '../assets/fonts/figtree-latin-wght-normal.woff2';
+import oflYoungSerif from '../assets/fonts/OFL-young-serif.txt';
+import oflFigtree from '../assets/fonts/OFL-figtree.txt';
 import { js } from '../frontend/scripts/app.js.js';
 import { manifest } from '../frontend/manifest.json.js';
 import { serviceWorker } from '../frontend/sw.js.js';
@@ -72,6 +81,27 @@ export async function serveStatic(c, next) {
         'Cache-Control': CACHE_STATIC,
       },
     });
+  }
+
+  // Theme stylesheet (loaded after main.css)
+  if (path === '/styles/theme.css') {
+    return new Response(themeCss, { headers: { 'Content-Type': 'text/css; charset=utf-8', 'Cache-Control': CACHE_STATIC } });
+  }
+
+  // Photos, fonts and font licenses (bundled via the wrangler Data rule; long cache, file names change with content)
+  const BIN = {
+    '/img/adoption-day-bulldog-camp-pendleton-usmc.webp': [imgBulldog, 'image/webp'],
+    '/img/adoption-day-brothers-new-dog-usmc.webp': [imgBrothers, 'image/webp'],
+    '/img/adoption-day-kitten-play-usmc.webp': [imgKitten, 'image/webp'],
+    '/img/adoption-day-toddler-new-puppy-usmc.webp': [imgToddler, 'image/webp'],
+    '/fonts/young-serif-latin-400-normal.woff2': [fontYoungSerif, 'font/woff2'],
+    '/fonts/figtree-latin-wght-normal.woff2': [fontFigtree, 'font/woff2'],
+  };
+  if (BIN[path]) {
+    return new Response(BIN[path][0], { headers: { 'Content-Type': BIN[path][1], 'Cache-Control': 'public, max-age=31536000, immutable' } });
+  }
+  if (path === '/fonts/OFL-young-serif.txt' || path === '/fonts/OFL-figtree.txt') {
+    return new Response(path.endsWith('young-serif.txt') ? oflYoungSerif : oflFigtree, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': CACHE_STATIC } });
   }
 
   // Serve PNG assets (og-image, favicons, PWA icons)

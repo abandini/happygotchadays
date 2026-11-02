@@ -6,7 +6,7 @@ workers_dev = true
 # Binary assets (og-image, favicons, PWA icons) imported as ArrayBuffer modules
 [[rules]]
 type = "Data"
-globs = ["**/*.png"]
+globs = ["**/*.png", "**/*.webp", "**/*.woff2"]
 fallthrough = true
 
 routes = [

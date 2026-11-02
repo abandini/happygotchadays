@@ -1,3 +1,5 @@
+import { TAG_SVG } from '../frontend/brand.js';
+import { MAIN_CSS, THEME_CSS, FONT_DISPLAY } from '../frontend/versions.js';
 import { Hono } from 'hono';
 import { OUTBOUND_CLICK_JS } from '../utils/outbound-click.js';
 
@@ -140,7 +142,7 @@ function pageShell({ title, description, canonical, body, jsonLd }) {
     <meta name="twitter:description" content="${description}">
     <meta name="twitter:image" content="${OG_IMAGE}">
 
-    <meta name="theme-color" content="#FF6B6B">
+    <meta name="theme-color" content="#2b2724">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -151,18 +153,20 @@ function pageShell({ title, description, canonical, body, jsonLd }) {
 
     ${jsonLdScript}
 
-    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preload" href="${FONT_DISPLAY}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="${MAIN_CSS}">
+    <link rel="stylesheet" href="${THEME_CSS}">
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <span class="logo">🐾</span>
+                <span class="logo">${TAG_SVG}</span>
                 <a href="/" style="text-decoration:none;"><span class="brand-name">HappyGotchaDays</span></a>
             </div>
             <div class="nav-menu">
                 <a href="/" class="nav-link">Home</a>
-                <a href="/shop" class="nav-link" style="color:#FF6B6B;font-weight:700;">Shop 🛍️</a>
+                <a href="/shop" class="nav-link" style="color:var(--hg-marigold);font-weight:700;">Shop 🛍️</a>
                 <a href="/about" class="nav-link">About</a>
                 <a href="/faq" class="nav-link">FAQ</a>
             </div>
@@ -176,7 +180,7 @@ function pageShell({ title, description, canonical, body, jsonLd }) {
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <span class="logo">🐾</span>
+                        <span class="logo">${TAG_SVG}</span>
                         <h3>HappyGotchaDays</h3>
                     </div>
                     <p class="footer-tagline">Celebrating rescue pets and their forever families</p>
@@ -297,6 +301,9 @@ seo.get('/about', (c) => {
             <p style="color:#636E72;">Share photos and stories, and get gotcha day reminders.</p>
           </div>
         </div>
+        <h2 class="section-title" style="text-align:center; margin-top:2.5rem;">Photo and font credits</h2>
+        <p>The adoption-day photographs on our home page were taken by Sgt. Valerie Eppler, U.S. Marine Corps, at the Camp Pendleton Animal Shelter's adoption event on July 26, 2014. They are U.S. government works in the public domain; each caption links to its DVIDS record. The people in them are not connected with this site.</p>
+        <p>Fonts: Young Serif and Figtree, used under the SIL Open Font License (<a href="/fonts/OFL-young-serif.txt">Young Serif notice</a>, <a href="/fonts/OFL-figtree.txt">Figtree notice</a>).</p>
       </div>
     </section>`;
 

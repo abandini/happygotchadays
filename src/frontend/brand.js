@@ -1,0 +1,2 @@
+// Brand mark: a heart-shaped collar tag (replaces the paw emoji). Decorative; the brand name is the text beside it.
+export const TAG_SVG = `<svg class="hg-tag" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="4.5" r="3" fill="none" stroke="#e0a82e" stroke-width="2"/><path d="M16 29C6 22 3 16.5 3 12.2 3 8.6 5.8 6 9.2 6c2.8 0 4.9 1.6 6.8 4 1.9-2.4 4-4 6.8-4C26.2 6 29 8.6 29 12.2 29 16.5 26 22 16 29z" fill="#a94a28"/><path d="M11 15.5h10M11 19h7" stroke="#fbf3e4" stroke-width="1.6" stroke-linecap="round"/></svg>`;

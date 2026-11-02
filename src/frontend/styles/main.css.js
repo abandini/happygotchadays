@@ -3,8 +3,7 @@ export const css = `/* HappyGotchaDays - Joyful Pet Celebration Platform
    Typography: Fredoka One (display) + Nunito (body)
    Palette: Sunshine, Coral, Mint on Warm Cream */
 
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+/* Fonts: self-hosted in theme.css (Young Serif + Figtree, OFL) */
 
 /* Reset */
 *, *::before, *::after {
@@ -77,7 +76,7 @@ html {
 }
 
 body {
-    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--hg-body);
     font-size: 16px;
     line-height: 1.6;
     color: var(--charcoal);
@@ -88,7 +87,7 @@ body {
 
 /* Playful Typography */
 h1, h2, h3, .display {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     font-weight: 400;
     letter-spacing: 0.02em;
     line-height: 1.2;
@@ -146,7 +145,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 
 .nav-brand h1,
 .nav-brand .brand-name {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     font-weight: 400;
     letter-spacing: 0.02em;
     line-height: 1.2;
@@ -164,7 +163,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .nav-link {
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--hg-body);
     font-weight: 700;
     color: var(--charcoal);
     text-decoration: none;
@@ -227,7 +226,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 
 /* ===== BUTTONS ===== */
 .btn {
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--hg-body);
     font-weight: 700;
     font-size: 1rem;
     padding: 0.875rem 1.75rem;
@@ -460,7 +459,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .pet-card-demo h3 {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     text-align: center;
     color: var(--charcoal);
     margin-bottom: 0.25rem;
@@ -504,7 +503,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .stat-number {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     font-size: 2.75rem;
     background: linear-gradient(135deg, var(--coral) 0%, var(--sunshine) 100%);
     -webkit-background-clip: text;
@@ -568,7 +567,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 
 /* ===== SECTION TITLES ===== */
 .section-title {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     font-size: 2rem;
     color: var(--charcoal);
     text-align: center;
@@ -670,7 +669,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 
 .post-author h3,
 .pet-owner h3 {
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--hg-body);
     font-weight: 800;
     font-size: 1.1rem;
     color: var(--charcoal);
@@ -856,7 +855,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
     border: none;
     padding: 0.75rem 1rem;
     font-size: 1rem;
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--hg-body);
     font-weight: 600;
     outline: none;
     background: transparent;
@@ -899,7 +898,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .upcoming-card h3 {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     color: var(--charcoal);
     margin-bottom: 0.5rem;
 }
@@ -923,7 +922,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .countdown-timer .number {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     font-size: 2rem;
     color: var(--coral);
 }
@@ -955,7 +954,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .empty-state h3 {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     color: var(--charcoal);
     margin-bottom: var(--space-sm);
 }
@@ -1037,7 +1036,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .modal-content h2 {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     text-align: center;
     color: var(--charcoal);
     margin-bottom: var(--space-md);
@@ -1056,7 +1055,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
     border: 3px solid var(--cream-dark);
     border-radius: var(--radius-md);
     font-size: 1rem;
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--hg-body);
     font-weight: 600;
     transition: var(--transition-fast);
 }
@@ -1447,7 +1446,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 
 .footer-section h3,
 .footer-section h4 {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     margin-bottom: var(--space-sm);
     color: var(--sunshine);
 }
@@ -1730,7 +1729,7 @@ h3 { font-size: clamp(1.25rem, 3vw, 1.5rem); }
 }
 
 .profile-card h3 {
-    font-family: 'Fredoka One', cursive;
+    font-family: var(--hg-display);
     margin-bottom: 0.5rem;
 }
 

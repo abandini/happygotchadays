@@ -1,4 +1,7 @@
 import { OUTBOUND_CLICK_JS } from '../utils/outbound-click.js';
+import { PHOTOS, photoCaption, photoImg } from './photos.js';
+import { TAG_SVG } from './brand.js';
+import { MAIN_CSS, THEME_CSS, FONT_DISPLAY, FONT_BODY } from './versions.js';
 
 export const html = `<!DOCTYPE html>
 <html lang="en">
@@ -6,7 +9,7 @@ export const html = `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Celebrate your rescue pet's adoption anniversary! HappyGotchaDays helps pet parents track gotcha days, share photos, and connect with the rescue pet community.">
-    <meta name="theme-color" content="#FF6B6B">
+    <meta name="theme-color" content="#2b2724">
     <title>HappyGotchaDays - Celebrate Your Pet's Gotcha Day</title>
 
     <!-- Canonical URL -->
@@ -94,25 +97,20 @@ export const html = `<!DOCTYPE html>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3401889582473794" crossorigin="anonymous"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="preload" href="${FONT_DISPLAY}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${FONT_BODY}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="${MAIN_CSS}">
+    <link rel="stylesheet" href="${THEME_CSS}">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="/scripts/app.js" as="script">
 </head>
 <body>
-    <!-- Floating Decoration Elements -->
-    <div class="floating-paws" aria-hidden="true">
-        <span class="floating-paw" style="left: 5%; animation-delay: 0s;">🐾</span>
-        <span class="floating-paw" style="left: 25%; animation-delay: 2s;">🐾</span>
-        <span class="floating-paw" style="left: 75%; animation-delay: 4s;">🐾</span>
-        <span class="floating-paw" style="left: 90%; animation-delay: 1s;">🐾</span>
-    </div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <span class="logo">🐾</span>
+                <span class="logo">${TAG_SVG}</span>
                 <span class="brand-name">HappyGotchaDays</span>
             </div>
             <div class="nav-menu" id="navMenu">
@@ -145,35 +143,20 @@ export const html = `<!DOCTYPE html>
     <!-- Main Content -->
     <main id="app">
         <!-- Hero Section -->
-        <section class="hero" id="home">
-            <!-- Confetti background decoration -->
-            <div class="hero-confetti" aria-hidden="true">
-                <span class="confetti-piece" style="left: 10%; background: var(--coral);"></span>
-                <span class="confetti-piece" style="left: 20%; background: var(--sunshine); animation-delay: 0.5s;"></span>
-                <span class="confetti-piece" style="left: 40%; background: var(--mint); animation-delay: 1s;"></span>
-                <span class="confetti-piece" style="left: 60%; background: var(--lavender); animation-delay: 1.5s;"></span>
-                <span class="confetti-piece" style="left: 80%; background: var(--sky); animation-delay: 0.3s;"></span>
-                <span class="confetti-piece" style="left: 90%; background: var(--coral); animation-delay: 0.8s;"></span>
-            </div>
-
-            <div class="container">
+        <section class="hero hg-hero" id="home">
+            <div class="container hg-hero-grid">
                 <div class="hero-content">
-                    <div class="celebration-icons" aria-hidden="true">
-                        <span class="party-icon">🎈</span>
-                        <span class="party-icon">🎊</span>
-                        <span class="party-icon">🎉</span>
-                    </div>
+                    <p class="hg-kicker">For rescue dogs and cats, and the people who took them home</p>
                     <h1 class="hero-title">
                         Celebrate Every
                         <span class="gradient-text">Gotcha Day!</span>
                     </h1>
                     <p class="hero-subtitle">
                         Where rescue pet families come together to celebrate adoption anniversaries
-                        with love, photos, and party vibes! 🐶🐱
+                        with love, photos, and party vibes!
                     </p>
                     <div class="hero-actions">
                         <button class="btn btn-large btn-primary" id="heroGetStarted">
-                            <span class="btn-icon-left">🎉</span>
                             Start Celebrating
                         </button>
                         <button class="btn btn-large btn-outline" id="heroLearnMore">
@@ -181,40 +164,11 @@ export const html = `<!DOCTYPE html>
                         </button>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <div class="polaroid-stack">
-                        <div class="polaroid polaroid-back">
-                            <div class="polaroid-photo">
-                                <div class="photo-placeholder photo-placeholder--cat">
-                                    <span class="placeholder-emoji">🐱</span>
-                                    <span class="placeholder-text">Whiskers</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="polaroid polaroid-front">
-                            <div class="polaroid-photo">
-                                <div class="photo-placeholder photo-placeholder--dog">
-                                    <span class="placeholder-emoji">🐶</span>
-                                    <span class="placeholder-text">Max</span>
-                                </div>
-                            </div>
-                            <div class="polaroid-caption">
-                                <span class="pet-name">Max</span>
-                                <span class="gotcha-years">3 years of love!</span>
-                            </div>
-                            <div class="celebration-badge celebration-badge--hero">
-                                <span class="badge-icon">🏆</span>
-                                Gotcha Day Hero!
-                            </div>
-                        </div>
-                        <!-- Floating hearts decoration -->
-                        <div class="floating-hearts" aria-hidden="true">
-                            <span class="heart">❤️</span>
-                            <span class="heart" style="animation-delay: 0.5s;">💕</span>
-                            <span class="heart" style="animation-delay: 1s;">💗</span>
-                        </div>
-                    </div>
-                </div>
+                <figure class="hg-folder">
+                    ${photoImg(PHOTOS.bulldog, { lazy: false })}
+                    <span class="hg-stamp" aria-hidden="true">Adoption day</span>
+                    <figcaption class="hg-cap">${photoCaption(PHOTOS.bulldog)}</figcaption>
+                </figure>
             </div>
         </section>
 
@@ -236,6 +190,19 @@ export const html = `<!DOCTYPE html>
                 <div style="text-align: center;">
                     <a href="/about" class="btn btn-outline" style="margin-right: 0.75rem;">Learn More</a>
                     <a href="/faq" class="btn btn-secondary">Read the FAQ</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Adoption day, in pictures -->
+        <section class="hg-strip" aria-labelledby="hg-strip-h">
+            <div class="container">
+                <h2 class="section-title" id="hg-strip-h">Adoption day, in pictures</h2>
+                <p class="hg-intro">Four photographs from one shelter adoption event, at Camp Pendleton in California in July 2014, made by a Marine Corps photographer and in the public domain. The first is at the top of this page. The people pictured are not users of this site and are not connected with it.</p>
+                <div class="hg-shots">
+                    <figure class="hg-shot">${photoImg(PHOTOS.brothers)}<figcaption class="hg-cap">${photoCaption(PHOTOS.brothers)}</figcaption></figure>
+                    <figure class="hg-shot">${photoImg(PHOTOS.toddler)}<figcaption class="hg-cap">${photoCaption(PHOTOS.toddler)}</figcaption></figure>
+                    <figure class="hg-shot">${photoImg(PHOTOS.kitten)}<figcaption class="hg-cap">${photoCaption(PHOTOS.kitten)}</figcaption></figure>
                 </div>
             </div>
         </section>
@@ -437,7 +404,7 @@ export const html = `<!DOCTYPE html>
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <span class="logo">🐾</span>
+                        <span class="logo">${TAG_SVG}</span>
                         <h3>HappyGotchaDays</h3>
                     </div>
                     <p class="footer-tagline">Celebrating rescue pets and their forever families</p>
