@@ -111,6 +111,26 @@ a{color:var(--hg-terra)}a:hover{color:var(--hg-terra-dk)}
 
 .btn:focus-visible,a:focus-visible,input:focus-visible,button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--hg-ink) !important;outline-offset:3px !important}
 .navbar .btn:focus-visible,.navbar a:focus-visible,.navbar button:focus-visible,.footer a:focus-visible,.hero:not(.hg-hero) a:focus-visible,.celebration-banner .btn:focus-visible{outline-color:var(--hg-marigold) !important}
+.filter-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:18px 0 26px}
+.filter-tag{padding:8px 16px;border-radius:999px;font:600 .95rem/1.2 var(--hg-body);cursor:pointer}
+.search-bar{display:flex;align-items:center;gap:10px;padding:6px 6px 6px 18px;border-radius:999px;max-width:600px;margin:0 auto}
+.search-bar .search-icon{position:static;transform:none;line-height:1}
+.search-bar .search-input{flex:1;min-width:0;border:0;background:transparent;padding:10px 4px;font:inherit}
+.pet-card.polaroid-card{overflow:hidden;border-radius:16px;display:flex;flex-direction:column}
+.polaroid-card .polaroid-photo .photo-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:110px}
+.polaroid-card .polaroid-content{padding:16px 20px 20px}
+.pet-card-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.pet-card .pet-name{font-size:1.5rem;line-height:1.15;margin:0}
+.pet-card .pet-owner,.pet-card .pet-breed{margin:2px 0;color:var(--hg-ink2);font-size:.95rem}
+.pet-card .pet-gotcha-info{display:flex;align-items:center;gap:6px;margin:10px 0 6px;font-weight:600;color:var(--hg-terra)}
+.pet-card .adoption-story{margin:8px 0 0;line-height:1.5}
+.footer-wave,.footer::before{display:none !important}
+.footer-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.footer-section h4{margin:0 0 10px;font-size:1.05rem}
+.footer-section ul{list-style:none;padding:0;margin:0}
+.footer-section li{margin:0 0 8px}
+.footer-section a{text-decoration:none}.footer-section a:hover{text-decoration:underline}
+@media (max-width:640px){.footer-links{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.navbar .brand-name{font-size:1.15rem}.hg-tag{width:24px;height:24px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}}
 `;
